@@ -40,19 +40,19 @@ jobs:
         run: pnpm install --frozen-lockfile
         
       - name: Lint library
-        run: pnpm lint:lib
+        run: npx nx lint ng-cropper
         
       - name: Test library
-        run: pnpm test:lib --passWithNoTests --watchAll=false
+        run: npx nx test ng-cropper --passWithNoTests --watchAll=false
         
       - name: Build library
-        run: pnpm build:lib
+        run: npx nx build ng-cropper
         
       - name: Build Storybook
-        run: pnpm storybook:build
+        run: npx nx build-storybook ng-cropper
         
       - name: Build playground
-        run: pnpm build:app
+        run: npx nx build ng-cropper-playground
         
       - name: Setup Pages
         uses: actions/configure-pages@v4

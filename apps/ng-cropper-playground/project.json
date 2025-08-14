@@ -3,9 +3,58 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "prefix": "app",
-  "sourceRoot": "apps/ng-cropper/src",
+  "sourceRoot": "apps/ng-cropper-playground/src",
   "tags": [],
   "targets": {
+    "build": {
+      "executor": "@nx/rspack:rspack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "web",
+        "compiler": "babel",
+        "outputPath": "dist/apps/ng-cropper-playground",
+        "index": "src/index.html",
+        "polyfills": "zone.js",
+        "tsConfig": "tsconfig.app.json",
+        "assets": [
+          {
+            "glob": "**/*",
+            "input": "apps/ng-cropper-playground/public",
+            "output": "/"
+          }
+        ],
+        "styles": ["src/styles.scss"],
+        "scripts": [],
+        "main": "src/main.ts",
+        "rspackConfig": "apps/ng-cropper-playground/rspack.config.ts"
+      },
+      "configurations": {
+        "development": {
+          "mode": "development"
+        },
+        "production": {
+          "mode": "production",
+          "optimization": true,
+          "sourceMap": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/rspack:dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "ng-cropper-playground:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "ng-cropper-playground:build:development"
+        },
+        "production": {
+          "buildTarget": "ng-cropper-playground:build:production"
+        }
+      }
+    },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {

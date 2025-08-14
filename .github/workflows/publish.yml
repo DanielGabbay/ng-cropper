@@ -30,13 +30,13 @@ jobs:
         run: pnpm install --frozen-lockfile
         
       - name: Lint library
-        run: pnpm lint:lib
+        run: npx nx lint ng-cropper
         
       - name: Test library
-        run: pnpm test:lib --passWithNoTests --watchAll=false
+        run: npx nx test ng-cropper --passWithNoTests --watchAll=false
         
       - name: Build library
-        run: pnpm build:lib
+        run: npx nx build ng-cropper
         
       - name: Publish to NPM
         run: |
