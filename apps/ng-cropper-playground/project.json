@@ -5,6 +5,7 @@
   "prefix": "app",
   "sourceRoot": "apps/ng-cropper-playground/src",
   "tags": [],
+  "implicitDependencies": ["ng-cropper"],
   "targets": {
     "build": {
       "executor": "@nx/rspack:rspack",
