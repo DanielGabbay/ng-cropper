@@ -1,71 +1,159 @@
-<cropper-canvas
-    class="cropper-canvas border border-gray-300 rounded-lg shadow-lg"
-    #cropperCanvas
-    [hidden]="canvasHidden()"
-    [background]="canvasBackground()"
-    [disabled]="canvasDisabled()"
-    [scale-step]="canvasScaleStep()"
-    [theme-color]="canvasThemeColor()"
->
-    <cropper-image
-        #cropperImage
-        [hidden]="imageHidden()"
-        [src]="imageSrc()"
-        [alt]="imageAlt()"
-        [rotatable]="imageRotatable()"
-        [scalable]="imageScalable()"
-        [skewable]="imageSkewable()"
-        [translatable]="imageTranslatable()"
-        [initial-center-size]="imageInitialCenterSize()"
+<div class="ng-cropper-container border border-gray-300 rounded-lg shadow-lg" [class]="cropperContainerClass()">
+    <cropper-canvas
+        class="cropper-canvas"
+        #cropperCanvas
+        [class]="cropperCanvasClass()"
+        [hidden]="canvasHidden()"
+        [background]="canvasBackground()"
+        [disabled]="canvasDisabled()"
+        [scale-step]="canvasScaleStep()"
+        [theme-color]="canvasThemeColor()"
     >
-    </cropper-image>
-
-    <cropper-shade #cropperShade [hidden]="shadeHidden()" [theme-color]="shadeThemeColor()"> </cropper-shade>
-
-    <cropper-handle #cropperHandle [hidden]="handlesHidden()" [action]="handleAction()" [plain]="handlePlain()" [theme-color]="handleThemeColor()"> </cropper-handle>
-
-    <cropper-selection
-        #cropperSelection
-        [hidden]="selectionHidden()"
-        [x]="selectionX()"
-        [y]="selectionY()"
-        [width]="selectionWidth()"
-        [height]="selectionHeight()"
-        [aspect-ratio]="selectionAspectRatio()"
-        [initial-aspect-ratio]="selectionInitialAspectRatio()"
-        [initial-coverage]="selectionInitialCoverage()"
-        [dynamic]="selectionDynamic()"
-        [movable]="selectionMovable()"
-        [resizable]="selectionResizable()"
-        [zoomable]="selectionZoomable()"
-        [multiple]="selectionMultiple()"
-        [keyboard]="selectionKeyboard()"
-        [outlined]="selectionOutlined()"
-        [precise]="selectionPrecise()"
-    >
-        <cropper-grid
-            #cropperGrid
-            [hidden]="gridHidden()"
-            [rows]="gridRows()"
-            [columns]="gridColumns()"
-            [bordered]="gridBordered()"
-            [covered]="gridCovered()"
-            [theme-color]="gridThemeColor()"
-            role="grid"
+        <cropper-image
+            class="cropper-image"
+            #cropperImage
+            [class]="cropperImageClass()"
+            [hidden]="imageHidden()"
+            [src]="imageSrc()"
+            [alt]="imageAlt()"
+            [rotatable]="imageRotatable()"
+            [scalable]="imageScalable()"
+            [skewable]="imageSkewable()"
+            [translatable]="imageTranslatable()"
+            [initial-center-size]="imageInitialCenterSize()"
         >
-        </cropper-grid>
+        </cropper-image>
 
-        <cropper-crosshair #cropperCrosshair [hidden]="crosshairHidden()" [centered]="crosshairCentered()" [theme-color]="crosshairThemeColor()"> </cropper-crosshair>
+        <cropper-shade #cropperShade class="cropper-shade" [class]="cropperShadeClass()" [hidden]="shadeHidden()" [theme-color]="shadeThemeColor()"> </cropper-shade>
 
-        <!-- Resize handles -->
-        <cropper-handle #cropperHandle action="move" [hidden]="handlesHidden()" theme-color="rgba(255, 255, 255, 0.35)"></cropper-handle>
-        <cropper-handle #cropperHandle action="n-resize" [hidden]="handlesHidden()" [theme-color]="handleThemeColor()"></cropper-handle>
-        <cropper-handle #cropperHandle action="e-resize" [hidden]="handlesHidden()" [theme-color]="handleThemeColor()"></cropper-handle>
-        <cropper-handle #cropperHandle action="s-resize" [hidden]="handlesHidden()" [theme-color]="handleThemeColor()"></cropper-handle>
-        <cropper-handle #cropperHandle action="w-resize" [hidden]="handlesHidden()" [theme-color]="handleThemeColor()"></cropper-handle>
-        <cropper-handle #cropperHandle action="ne-resize" [hidden]="handlesHidden()" [theme-color]="handleThemeColor()"></cropper-handle>
-        <cropper-handle #cropperHandle action="nw-resize" [hidden]="handlesHidden()" [theme-color]="handleThemeColor()"></cropper-handle>
-        <cropper-handle #cropperHandle action="se-resize" [hidden]="handlesHidden()" [theme-color]="handleThemeColor()"></cropper-handle>
-        <cropper-handle #cropperHandle action="sw-resize" [hidden]="handlesHidden()" [theme-color]="handleThemeColor()"></cropper-handle>
-    </cropper-selection>
-</cropper-canvas>
+        <cropper-handle
+            #cropperHandle
+            class="cropper-handle"
+            [class]="cropperHandleClass()"
+            [hidden]="handlesHidden()"
+            [action]="handleAction()"
+            [plain]="handlePlain()"
+            [theme-color]="handleThemeColor()"
+        >
+        </cropper-handle>
+
+        <cropper-selection
+            #cropperSelection
+            class="cropper-selection"
+            [class]="cropperSelectionClass()"
+            [hidden]="selectionHidden()"
+            [x]="selectionX()"
+            [y]="selectionY()"
+            [width]="selectionWidth()"
+            [height]="selectionHeight()"
+            [aspect-ratio]="selectionAspectRatio()"
+            [initial-aspect-ratio]="selectionInitialAspectRatio()"
+            [initial-coverage]="selectionInitialCoverage()"
+            [dynamic]="selectionDynamic()"
+            [movable]="selectionMovable()"
+            [resizable]="selectionResizable()"
+            [zoomable]="selectionZoomable()"
+            [multiple]="selectionMultiple()"
+            [keyboard]="selectionKeyboard()"
+            [outlined]="selectionOutlined()"
+            [precise]="selectionPrecise()"
+        >
+            <cropper-grid
+                #cropperGrid
+                class="cropper-grid"
+                [hidden]="gridHidden()"
+                [rows]="gridRows()"
+                [columns]="gridColumns()"
+                [bordered]="gridBordered()"
+                [covered]="gridCovered()"
+                [theme-color]="gridThemeColor()"
+                role="grid"
+            >
+            </cropper-grid>
+
+            <cropper-crosshair
+                #cropperCrosshair
+                class="cropper-crosshair"
+                [class]="cropperCrosshairClass()"
+                [hidden]="crosshairHidden()"
+                [centered]="crosshairCentered()"
+                [theme-color]="crosshairThemeColor()"
+            >
+            </cropper-crosshair>
+
+            <!-- Resize handles -->
+            <cropper-handle
+                #cropperHandle
+                class="cropper-handle"
+                [class]="cropperHandleClass()"
+                action="move"
+                [hidden]="handlesHidden()"
+                theme-color="rgba(255, 255, 255, 0.35)"
+            ></cropper-handle>
+            <cropper-handle
+                #cropperHandle
+                class="cropper-handle"
+                [class]="cropperHandleClass()"
+                action="n-resize"
+                [hidden]="handlesHidden()"
+                [theme-color]="handleThemeColor()"
+            ></cropper-handle>
+            <cropper-handle
+                #cropperHandle
+                class="cropper-handle"
+                [class]="cropperHandleClass()"
+                action="e-resize"
+                [hidden]="handlesHidden()"
+                [theme-color]="handleThemeColor()"
+            ></cropper-handle>
+            <cropper-handle
+                #cropperHandle
+                class="cropper-handle"
+                [class]="cropperHandleClass()"
+                action="s-resize"
+                [hidden]="handlesHidden()"
+                [theme-color]="handleThemeColor()"
+            ></cropper-handle>
+            <cropper-handle
+                #cropperHandle
+                class="cropper-handle"
+                [class]="cropperHandleClass()"
+                action="w-resize"
+                [hidden]="handlesHidden()"
+                [theme-color]="handleThemeColor()"
+            ></cropper-handle>
+            <cropper-handle
+                #cropperHandle
+                class="cropper-handle"
+                [class]="cropperHandleClass()"
+                action="ne-resize"
+                [hidden]="handlesHidden()"
+                [theme-color]="handleThemeColor()"
+            ></cropper-handle>
+            <cropper-handle
+                #cropperHandle
+                class="cropper-handle"
+                [class]="cropperHandleClass()"
+                action="nw-resize"
+                [hidden]="handlesHidden()"
+                [theme-color]="handleThemeColor()"
+            ></cropper-handle>
+            <cropper-handle
+                #cropperHandle
+                class="cropper-handle"
+                [class]="cropperHandleClass()"
+                action="se-resize"
+                [hidden]="handlesHidden()"
+                [theme-color]="handleThemeColor()"
+            ></cropper-handle>
+            <cropper-handle
+                #cropperHandle
+                class="cropper-handle"
+                [class]="cropperHandleClass()"
+                action="sw-resize"
+                [hidden]="handlesHidden()"
+                [theme-color]="handleThemeColor()"
+            ></cropper-handle>
+        </cropper-selection>
+    </cropper-canvas>
+</div>

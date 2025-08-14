@@ -7,6 +7,16 @@ const config: StorybookConfig = {
     name: '@storybook/angular',
     options: {},
   },
+  webpackFinal: async (config) => {
+    // Add CSS loader configuration
+    config.module?.rules?.push({
+      test: /\.css$/,
+      use: ['style-loader', 'css-loader'],
+      include: [__dirname]
+    });
+
+    return config;
+  },
 };
 
 export default config;

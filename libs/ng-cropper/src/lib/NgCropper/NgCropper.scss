@@ -1,3 +1,22 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:host {
+    @apply block h-dvh;
+}
+
+::ng-deep {
+    .sb-main-padded {
+        @apply p-0 !important;
+    }
+}
+
+.ng-cropper-container {
+    @apply flex items-center justify-center w-full h-full;
+
+    .cropper-canvas {
+        @apply relative w-full h-full;
+    }
+
+}

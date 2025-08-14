@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, CUSTOM_ELEMENTS_SCHEMA, effect, ElementRef, input, viewChild, viewChildren } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, CUSTOM_ELEMENTS_SCHEMA, effect, ElementRef, inject, input, viewChild, viewChildren } from '@angular/core';
 import {
     CropperCanvasElement,
     CropperCrosshairElement,
@@ -19,6 +19,7 @@ import {
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class NgCropper implements AfterViewInit {
+    private readonly elementRef = inject(ElementRef);
     // ================== Element References ==================
     public readonly cropperCanvasRef = viewChild.required<ElementRef<CropperCanvasElement>>('cropperCanvas', { debugName: 'cropperCanvasRef' });
     public readonly cropperImageRef = viewChild.required<ElementRef<CropperImageElement>>('cropperImage', { debugName: 'cropperImageRef' });
@@ -27,6 +28,17 @@ export class NgCropper implements AfterViewInit {
     public readonly cropperSelectionRef = viewChild.required<ElementRef<CropperSelectionElement>>('cropperSelection', { debugName: 'cropperSelectionRef' });
     public readonly cropperGridRef = viewChild.required<ElementRef<CropperGridElement>>('cropperGrid', { debugName: 'cropperGridRef' });
     public readonly cropperCrosshairRef = viewChild.required<ElementRef<CropperCrosshairElement>>('cropperCrosshair', { debugName: 'cropperCrosshairRef' });
+
+    // ================== Style Customization ==================
+    ngCropperStyleClass = input('ng-cropper-style', { transform: (classesString: string) => 'ng-cropper-style ' + classesString });
+    cropperContainerClass = input('cropper-container', { transform: (classesString: string) => 'cropper-container ' + classesString });
+    cropperCanvasClass = input('cropper-canvas', { transform: (classesString: string) => 'cropper-canvas ' + classesString });
+    cropperImageClass = input('cropper-image', { transform: (classesString: string) => 'cropper-image ' + classesString });
+    cropperShadeClass = input('cropper-shade', { transform: (classesString: string) => 'cropper-shade ' + classesString });
+    cropperHandleClass = input('cropper-handle', { transform: (classesString: string) => 'cropper-handle ' + classesString });
+    cropperSelectionClass = input('cropper-selection', { transform: (classesString: string) => 'cropper-selection ' + classesString });
+    cropperGridClass = input('cropper-grid', { transform: (classesString: string) => 'cropper-grid ' + classesString });
+    cropperCrosshairClass = input('cropper-crosshair', { transform: (classesString: string) => 'cropper-crosshair ' + classesString });
 
     // ================== Canvas Inputs ==================
     canvasHidden = input<boolean>(false);
@@ -92,6 +104,7 @@ export class NgCropper implements AfterViewInit {
         provideCropperJS().catch((err) => console.error('Cropper init failed', err));
 
         // Effects to update elements when inputs change
+        effect(() => this.updateCustomStyles());
         effect(() => this.updateCanvasProperties());
         effect(() => this.updateImageProperties());
         effect(() => this.updateShadeProperties());
@@ -105,6 +118,43 @@ export class NgCropper implements AfterViewInit {
         // Apply all properties after view initialization
         setTimeout(() => {
             this.updateAllProperties();
+        });
+    }
+
+    private updateCustomStyles() {
+        const ngCropperStyle = this.ngCropperStyleClass();
+        if (ngCropperStyle) {
+            this.elementRef.nativeElement.setAttribute('class', ngCropperStyle);
+        }
+
+        const image = this.cropperImageRef()?.nativeElement;
+        if (image) {
+            image.className = this.cropperImageClass();
+        }
+
+        const shade = this.cropperShadeRef()?.nativeElement;
+        if (shade) {
+            shade.className = this.cropperShadeClass();
+        }
+
+        const selection = this.cropperSelectionRef()?.nativeElement;
+        if (selection) {
+            selection.className = this.cropperSelectionClass();
+        }
+
+        const grid = this.cropperGridRef()?.nativeElement;
+        if (grid) {
+            grid.className = this.cropperGridClass();
+        }
+
+        const crosshair = this.cropperCrosshairRef()?.nativeElement;
+        if (crosshair) {
+            crosshair.className = this.cropperCrosshairClass();
+        }
+
+        const handles = this.cropperHandleRefs();
+        handles.forEach((handleRef) => {
+            handleRef.nativeElement.className = this.cropperHandleClass();
         });
     }
 
@@ -203,6 +253,7 @@ export class NgCropper implements AfterViewInit {
     }
 
     private updateAllProperties() {
+        this.updateCustomStyles();
         this.updateImageProperties();
         this.updateCanvasProperties();
         this.updateShadeProperties();

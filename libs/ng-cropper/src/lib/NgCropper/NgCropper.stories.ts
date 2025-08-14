@@ -5,6 +5,53 @@ const meta: Meta<NgCropper> = {
     component: NgCropper,
     title: 'NgCropper',
     argTypes: {
+        // Style Customization
+        ngCropperStyleClass: {
+            control: 'text',
+            description: 'Custom CSS classes for the ng-cropper',
+            table: { category: 'Style' },
+        },
+        cropperContainerClass: {
+            control: 'text',
+            description: 'Custom CSS classes for the cropper container',
+            table: { category: 'Style' },
+        },
+        cropperCanvasClass: {
+            control: 'text',
+            description: 'Custom CSS classes for the cropper canvas',
+            table: { category: 'Style' },
+        },
+        cropperImageClass: {
+            control: 'text',
+            description: 'Custom CSS classes for the cropper image',
+            table: { category: 'Style' },
+        },
+        cropperShadeClass: {
+            control: 'text',
+            description: 'Custom CSS classes for the cropper shade',
+            table: { category: 'Style' },
+        },
+        cropperHandleClass: {
+            control: 'text',
+            description: 'Custom CSS classes for the cropper handles',
+            table: { category: 'Style' },
+        },
+        cropperSelectionClass: {
+            control: 'text',
+            description: 'Custom CSS classes for the cropper selection area',
+            table: { category: 'Style' },
+        },
+        cropperGridClass: {
+            control: 'text',
+            description: 'Custom CSS classes for the cropper grid',
+            table: { category: 'Style' },
+        },
+        cropperCrosshairClass: {
+            control: 'text',
+            description: 'Custom CSS classes for the cropper crosshair',
+            table: { category: 'Style' },
+        },
+
         // Canvas Properties
         canvasHidden: {
             control: 'boolean',
@@ -103,27 +150,29 @@ const meta: Meta<NgCropper> = {
         },
         selectionAspectRatio: {
             control: { type: 'select' },
-            options: [
-                { label: 'Free', value: NaN },
-                { label: '16:9', value: 16/9 },
-                { label: '4:3', value: 4/3 },
-                { label: '1:1', value: 1 },
-                { label: '3:4', value: 3/4 },
-                { label: '9:16', value: 9/16 },
-            ],
+            options: ['Free', '16:9', '4:3', '1:1', '3:4', '9:16'],
+            mapping: {
+                Free: NaN,
+                '16:9': 16 / 9,
+                '4:3': 4 / 3,
+                '1:1': 1,
+                '3:4': 3 / 4,
+                '9:16': 9 / 16,
+            },
             description: 'Selection aspect ratio constraint',
             table: { category: 'Selection' },
         },
         selectionInitialAspectRatio: {
             control: { type: 'select' },
-            options: [
-                { label: 'Free', value: NaN },
-                { label: '16:9', value: 16/9 },
-                { label: '4:3', value: 4/3 },
-                { label: '1:1', value: 1 },
-                { label: '3:4', value: 3/4 },
-                { label: '9:16', value: 9/16 },
-            ],
+            options: ['Free', '16:9', '4:3', '1:1', '3:4', '9:16'],
+            mapping: {
+                Free: NaN,
+                '16:9': 16 / 9,
+                '4:3': 4 / 3,
+                '1:1': 1,
+                '3:4': 3 / 4,
+                '9:16': 9 / 16,
+            },
             description: 'Initial aspect ratio',
             table: { category: 'Selection' },
         },
@@ -241,7 +290,7 @@ const meta: Meta<NgCropper> = {
         canvasDisabled: false,
         canvasScaleStep: 0.1,
         canvasThemeColor: '#3399ff',
-        
+
         // Image defaults
         imageHidden: false,
         imageRotatable: true,
@@ -251,7 +300,7 @@ const meta: Meta<NgCropper> = {
         imageInitialCenterSize: 'contain',
         imageSrc: 'https://picsum.photos/800/600',
         imageAlt: 'The image to crop',
-        
+
         // Selection defaults
         selectionHidden: false,
         selectionX: undefined,
@@ -269,7 +318,7 @@ const meta: Meta<NgCropper> = {
         selectionKeyboard: false,
         selectionOutlined: false,
         selectionPrecise: false,
-        
+
         // Grid defaults
         gridHidden: false,
         gridRows: 3,
@@ -277,12 +326,12 @@ const meta: Meta<NgCropper> = {
         gridBordered: true,
         gridCovered: true,
         gridThemeColor: 'rgba(238, 238, 238, 0.5)',
-        
+
         // Crosshair defaults
         crosshairHidden: false,
         crosshairCentered: true,
         crosshairThemeColor: 'rgba(238, 238, 238, 0.5)',
-        
+
         // Handles defaults
         handlesHidden: false,
         handleThemeColor: 'rgba(51, 153, 255, 0.5)',
@@ -290,10 +339,10 @@ const meta: Meta<NgCropper> = {
     parameters: {
         docs: {
             description: {
-                component: 'NgCropper is a powerful Angular image cropper component with full customization capabilities.'
-            }
-        }
-    }
+                component: 'NgCropper is a powerful Angular image cropper component with full customization capabilities.',
+            },
+        },
+    },
 };
 
 export default meta;
@@ -301,12 +350,22 @@ export default meta;
 type Story = StoryObj<NgCropper>;
 
 export const Interactive: Story = {
-    args: {},
+    args: {
+        ngCropperStyleClass: ""
+    },
     render: (args) => ({
         props: args,
         template: `
-            <div style="width: 100%; height: 600px; border: 1px solid #ccc;">
                 <ngCropper 
+                    [ngCropperStyleClass]="ngCropperStyleClass"
+                    [cropperContainerClass]="cropperContainerClass"
+                    [cropperCanvasClass]="cropperCanvasClass"
+                    [cropperImageClass]="cropperImageClass"
+                    [cropperShadeClass]="cropperShadeClass"
+                    [cropperHandleClass]="cropperHandleClass"
+                    [cropperSelectionClass]="cropperSelectionClass"
+                    [cropperGridClass]="cropperGridClass"
+                    [cropperCrosshairClass]="cropperCrosshairClass"
                     [canvasHidden]="canvasHidden"
                     [canvasBackground]="canvasBackground"
                     [canvasDisabled]="canvasDisabled"
@@ -348,7 +407,6 @@ export const Interactive: Story = {
                     [handlesHidden]="handlesHidden"
                     [handleThemeColor]="handleThemeColor">
                 </ngCropper>
-            </div>
         `,
     }),
     parameters: {
