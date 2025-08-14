@@ -1,6 +1,62 @@
-<div class="container mx-auto p-4">
-    <h1 class="text-3xl font-bold text-blue-600 mb-4">NgCropper Playground</h1>
-    <div class="bg-gray-100 p-6 rounded-lg shadow-md">
-        <ngCropper />
+<div class="flex flex-col items-center w-full max-w-6xl mx-auto p-6 gap-8 bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen">
+    <!-- Header Section -->
+    <header class="text-center space-y-4 py-8">
+        <h1 class="text-5xl font-extrabold bg-gradient-to-r from-blue-600 via-purple-600 to-teal-600 bg-clip-text text-transparent mb-4">NgCropper Playground</h1>
+        <p class="text-xl text-slate-600 font-medium max-w-2xl mx-auto">Interactive Image Cropping Component Demo</p>
+    </header>
+
+    <!-- Tailwind Demo Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-5xl">
+        <div class="relative p-6 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 overflow-hidden bg-white border border-blue-200">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-purple-500"></div>
+            <h3 class="text-xl font-bold text-slate-800 mb-2">Primary Card</h3>
+            <p class="text-slate-600 mb-4 leading-relaxed">Tailwind utilities working perfectly!</p>
+            <div class="absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-green-100 text-green-800 border border-green-200">Active</div>
+        </div>
+        
+        <div class="relative p-6 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 overflow-hidden bg-white border border-green-200">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-green-500 to-teal-500"></div>
+            <h3 class="text-xl font-bold text-slate-800 mb-2">Secondary Card</h3>
+            <p class="text-slate-600 mb-4 leading-relaxed">Responsive design with Tailwind CSS</p>
+            <div class="absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-yellow-100 text-yellow-800 border border-yellow-200">Demo</div>
+        </div>
+        
+        <div class="relative p-6 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 overflow-hidden bg-white border border-orange-200">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-500 to-pink-500"></div>
+            <h3 class="text-xl font-bold text-slate-800 mb-2">Accent Card</h3>
+            <p class="text-slate-600 mb-4 leading-relaxed">Beautiful gradients and shadows</p>
+            <div class="absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-blue-100 text-blue-800 border border-blue-200">New</div>
+        </div>
+    </div>
+
+    <!-- Interactive Elements -->
+    <div class="interactive-section">
+        <h2 class="section-title">Interactive Elements</h2>
+        <div class="button-group">
+            <button class="btn btn-primary">Primary Button</button>
+            <button class="btn btn-secondary">Secondary</button>
+            <button class="btn btn-outline">Outline</button>
+        </div>
+    </div>
+
+    <!-- NgCropper Section -->
+    <div class="ng-cropper-wrapper">
+        <h2 class="cropper-section-title">NgCropper Component</h2>
+        <p class="cropper-placeholder">Your image cropping component will appear here:</p>
+        <div class="cropper-container">
+            <ngCropper />
+        </div>
+    </div>
+
+    <!-- Status Indicators -->
+    <div class="status-section">
+        <div class="status-indicator status-success">
+            <span class="status-dot"></span>
+            Tailwind CSS: Active
+        </div>
+        <div class="status-indicator status-info">
+            <span class="status-dot"></span>
+            NgCropper: Ready
+        </div>
     </div>
 </div>

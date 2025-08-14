@@ -1,41 +1,71 @@
-<cropper-canvas #cropperCanvas background>
+<cropper-canvas
+    class="cropper-canvas border border-gray-300 rounded-lg shadow-lg"
+    #cropperCanvas
+    [hidden]="canvasHidden()"
+    [background]="canvasBackground()"
+    [disabled]="canvasDisabled()"
+    [scale-step]="canvasScaleStep()"
+    [theme-color]="canvasThemeColor()"
+>
     <cropper-image
         #cropperImage
-        src="https://fengyuanchen.github.io/cropperjs/images/picture.jpg"
-        alt="Picture"
-        rotatable
-        scalable
-        skewable
-        translatable
-    ></cropper-image>
-    <cropper-shade #cropperShade hidden></cropper-shade>
-    <cropper-handle #cropperHandle action="select" plain></cropper-handle>
-    <cropper-selection #cropperSelection initial-coverage="0.5" movable resizable>
-        <cropper-grid #cropperGrid role="grid" covered></cropper-grid>
-        <cropper-crosshair #cropperCrosshair centered></cropper-crosshair>
-        <cropper-handle #cropperHandle action="move" theme-color="rgba(255, 255, 255, 0.35)"></cropper-handle>
-        <cropper-handle #cropperHandle action="n-resize"></cropper-handle>
-        <cropper-handle #cropperHandle action="e-resize"></cropper-handle>
-        <cropper-handle #cropperHandle action="s-resize"></cropper-handle>
-        <cropper-handle #cropperHandle action="w-resize"></cropper-handle>
-        <cropper-handle #cropperHandle action="ne-resize"></cropper-handle>
-        <cropper-handle #cropperHandle action="nw-resize"></cropper-handle>
-        <cropper-handle #cropperHandle action="se-resize"></cropper-handle>
-        <cropper-handle #cropperHandle action="sw-resize"></cropper-handle>
+        [hidden]="imageHidden()"
+        [src]="imageSrc()"
+        [alt]="imageAlt()"
+        [rotatable]="imageRotatable()"
+        [scalable]="imageScalable()"
+        [skewable]="imageSkewable()"
+        [translatable]="imageTranslatable()"
+        [initial-center-size]="imageInitialCenterSize()"
+    >
+    </cropper-image>
+
+    <cropper-shade #cropperShade [hidden]="shadeHidden()" [theme-color]="shadeThemeColor()"> </cropper-shade>
+
+    <cropper-handle #cropperHandle [hidden]="handlesHidden()" [action]="handleAction()" [plain]="handlePlain()" [theme-color]="handleThemeColor()"> </cropper-handle>
+
+    <cropper-selection
+        #cropperSelection
+        [hidden]="selectionHidden()"
+        [x]="selectionX()"
+        [y]="selectionY()"
+        [width]="selectionWidth()"
+        [height]="selectionHeight()"
+        [aspect-ratio]="selectionAspectRatio()"
+        [initial-aspect-ratio]="selectionInitialAspectRatio()"
+        [initial-coverage]="selectionInitialCoverage()"
+        [dynamic]="selectionDynamic()"
+        [movable]="selectionMovable()"
+        [resizable]="selectionResizable()"
+        [zoomable]="selectionZoomable()"
+        [multiple]="selectionMultiple()"
+        [keyboard]="selectionKeyboard()"
+        [outlined]="selectionOutlined()"
+        [precise]="selectionPrecise()"
+    >
+        <cropper-grid
+            #cropperGrid
+            [hidden]="gridHidden()"
+            [rows]="gridRows()"
+            [columns]="gridColumns()"
+            [bordered]="gridBordered()"
+            [covered]="gridCovered()"
+            [theme-color]="gridThemeColor()"
+            role="grid"
+        >
+        </cropper-grid>
+
+        <cropper-crosshair #cropperCrosshair [hidden]="crosshairHidden()" [centered]="crosshairCentered()" [theme-color]="crosshairThemeColor()"> </cropper-crosshair>
+
+        <!-- Resize handles -->
+        <cropper-handle #cropperHandle action="move" [hidden]="handlesHidden()" theme-color="rgba(255, 255, 255, 0.35)"></cropper-handle>
+        <cropper-handle #cropperHandle action="n-resize" [hidden]="handlesHidden()" [theme-color]="handleThemeColor()"></cropper-handle>
+        <cropper-handle #cropperHandle action="e-resize" [hidden]="handlesHidden()" [theme-color]="handleThemeColor()"></cropper-handle>
+        <cropper-handle #cropperHandle action="s-resize" [hidden]="handlesHidden()" [theme-color]="handleThemeColor()"></cropper-handle>
+        <cropper-handle #cropperHandle action="w-resize" [hidden]="handlesHidden()" [theme-color]="handleThemeColor()"></cropper-handle>
+        <cropper-handle #cropperHandle action="ne-resize" [hidden]="handlesHidden()" [theme-color]="handleThemeColor()"></cropper-handle>
+        <cropper-handle #cropperHandle action="nw-resize" [hidden]="handlesHidden()" [theme-color]="handleThemeColor()"></cropper-handle>
+        <cropper-handle #cropperHandle action="se-resize" [hidden]="handlesHidden()" [theme-color]="handleThemeColor()"></cropper-handle>
+        <cropper-handle #cropperHandle action="sw-resize" [hidden]="handlesHidden()" [theme-color]="handleThemeColor()"></cropper-handle>
     </cropper-selection>
 </cropper-canvas>
-
-<!-- FOR DEBUGGING -->
-<!-- @if(cropperCanvasRef()?.nativeElement){ hasCanvas: {{!!cropperCanvasRef().nativeElement.hidden}}
-<br />
-hasImage: {{!!cropperImageRef().nativeElement.hidden}}
-<br />
-hasShade: {{!!cropperShadeRef().nativeElement.hidden}}
-<br />
-hasHandle: {{cropperHandleRefs().length}}
-<br />
-hasSelection: {{!!cropperSelectionRef().nativeElement.hidden}}
-<br />
-hasGrid: {{!!cropperGridRef().nativeElement.hidden}}
-<br />
-hasCrosshair: {{!!cropperCrosshairRef().nativeElement.hidden}} } -->
