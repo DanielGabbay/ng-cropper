@@ -8,16 +8,14 @@
   "implicitDependencies": ["ng-cropper"],
   "targets": {
     "build": {
-      "executor": "@nx/rspack:rspack",
+      "executor": "@angular-devkit/build-angular:browser",
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "target": "web",
-        "compiler": "babel",
         "outputPath": "dist/apps/ng-cropper-playground",
-        "index": "src/index.html",
-        "polyfills": "zone.js",
-        "tsConfig": "tsconfig.app.json",
+        "index": "apps/ng-cropper-playground/src/index.html",
+        "polyfills": ["zone.js"],
+        "tsConfig": "apps/ng-cropper-playground/tsconfig.app.json",
         "assets": [
           {
             "glob": "**/*",
@@ -25,24 +23,40 @@
             "output": "/"
           }
         ],
-        "styles": ["src/styles.scss"],
+        "styles": ["apps/ng-cropper-playground/src/styles.scss"],
         "scripts": [],
-        "main": "src/main.ts",
-        "rspackConfig": "apps/ng-cropper-playground/rspack.config.ts"
+        "main": "apps/ng-cropper-playground/src/main.ts"
       },
       "configurations": {
         "development": {
-          "mode": "development"
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
         },
         "production": {
-          "mode": "production",
           "optimization": true,
-          "sourceMap": false
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ]
         }
       }
     },
     "serve": {
-      "executor": "@nx/rspack:dev-server",
+      "executor": "@angular-devkit/build-angular:dev-server",
       "defaultConfiguration": "development",
       "options": {
         "buildTarget": "ng-cropper-playground:build"

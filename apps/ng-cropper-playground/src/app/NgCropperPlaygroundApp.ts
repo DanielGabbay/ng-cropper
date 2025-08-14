@@ -1,6 +1,6 @@
 import { Component, linkedSignal, signal, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgCropper, NgCropperConfig, NgCropperInitialState } from '../../../../dist/libs/ng-cropper';
+import { NgCropper, NgCropperConfig, NgCropperInitialState } from '@dg/ng-cropper';
 
 @Component({
     imports: [NgCropper, FormsModule],
