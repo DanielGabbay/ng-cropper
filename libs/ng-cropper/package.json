@@ -1,24 +1,52 @@
 {
-  "name": "@dg/ng-cropper",
-  "version": "0.0.1",
-  "description": "Angular image cropper built on cropperjs web components with optional toolbar",
-  "author": "Daniel Gabbay",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/DanielGabbay/ng-cropper"
-  },
-  "bugs": {
-    "url": "https://github.com/DanielGabbay/ng-cropper/issues"
-  },
-  "homepage": "https://github.com/DanielGabbay/ng-cropper#readme",
-  "peerDependencies": {
-    "@angular/common": "^20.1.0",
-    "@angular/core": "^20.1.0",
-  "@angular/platform-browser": "^20.1.0",
-  "@angular/elements": "^20.1.0",
-  "cropperjs": "^2.0.1",
-  "lucide-angular": "^0.539.0"
-  },
-  "sideEffects": false
+    "name": "@dg/ng-cropper",
+    "version": "1.0.0",
+    "description": "Angular image cropper library built on CropperJS with optional built-in toolbar. Modern, customizable, and TypeScript-ready.",
+    "author": {
+        "name": "Daniel Gabbay",
+        "email": "d9777834@gmail.com"
+    },
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/DanielGabbay/ng-cropper.git"
+    },
+    "bugs": {
+        "url": "https://github.com/DanielGabbay/ng-cropper/issues"
+    },
+    "homepage": "https://danielgabbay.github.io/ng-cropper",
+    "keywords": [
+        "angular",
+        "cropper",
+        "image",
+        "crop",
+        "cropperjs",
+        "toolbar",
+        "typescript",
+        "angular20",
+        "web-components"
+    ],
+    "main": "bundles/dg-ng-cropper.umd.js",
+    "module": "fesm2022/dg-ng-cropper.mjs",
+    "es2020": "fesm2020/dg-ng-cropper.mjs",
+    "esm2020": "esm2020/dg-ng-cropper.mjs",
+    "fesm2020": "fesm2020/dg-ng-cropper.mjs",
+    "fesm2022": "fesm2022/dg-ng-cropper.mjs",
+    "typings": "index.d.ts",
+    "peerDependencies": {
+        "@angular/common": "^20.1.0",
+        "@angular/core": "^20.1.0",
+        "@angular/platform-browser": "^20.1.0",
+        "@angular/elements": "^20.1.0",
+        "cropperjs": "^2.0.1",
+        "lucide-angular": "^0.539.0"
+    },
+    "dependencies": {},
+    "publishConfig": {
+        "access": "public"
+    },
+    "sideEffects": false,
+    "engines": {
+        "node": ">=18.0.0"
+    }
 }

@@ -1,10 +1,22 @@
 import type { Meta, StoryObj } from '@storybook/angular';
+import { componentWrapperDecorator } from '@storybook/angular';
 import { NgCropper } from './NgCropper';
 
 const meta: Meta<NgCropper> = {
     component: NgCropper,
     title: 'NgCropper',
     argTypes: {
+        // Shade
+        shadeHidden: {
+            control: 'boolean',
+            description: 'Hide/show the shade overlay',
+            table: { category: 'Shade' },
+        },
+        shadeThemeColor: {
+            control: 'color',
+            description: 'Shade theme color',
+            table: { category: 'Shade' },
+        },
         // Toolbar
         showToolbar: {
             control: 'boolean',
@@ -296,8 +308,9 @@ const meta: Meta<NgCropper> = {
         },
     },
     args: {
-    showToolbar: false,
-    toolbarPosition: 'bottom',
+        // Toolbar defaults
+        showToolbar: false,
+        toolbarPosition: 'bottom',
         // Canvas defaults
         canvasHidden: false,
         canvasBackground: true,
@@ -315,22 +328,26 @@ const meta: Meta<NgCropper> = {
         imageSrc: 'https://picsum.photos/800/600',
         imageAlt: 'The image to crop',
 
+        // Shade defaults
+        shadeHidden: false,
+        shadeThemeColor: 'rgba(0, 0, 0, 0.65)',
+
         // Selection defaults
         selectionHidden: false,
-        selectionX: undefined,
-        selectionY: undefined,
-        selectionWidth: undefined,
-        selectionHeight: undefined,
+        selectionX: Number.NaN,
+        selectionY: Number.NaN,
+        selectionWidth: 200,
+        selectionHeight: 200,
         selectionAspectRatio: NaN,
         selectionInitialAspectRatio: NaN,
         selectionInitialCoverage: 0.5,
         selectionDynamic: false,
         selectionMovable: true,
         selectionResizable: true,
-        selectionZoomable: false,
+        selectionZoomable: true,
         selectionMultiple: false,
         selectionKeyboard: false,
-        selectionOutlined: false,
+        selectionOutlined: true,
         selectionPrecise: true,
 
         // Grid defaults
@@ -350,13 +367,23 @@ const meta: Meta<NgCropper> = {
         handlesHidden: false,
         handlesThemeColor: 'rgba(51, 153, 255, 0.5)',
     },
-    parameters: {
+        parameters: {
         docs: {
             description: {
-                component: 'NgCropper is a powerful Angular image cropper component with full customization capabilities.',
+                component: 'NgCropper is a powerful Angular image cropper component with full customization capabilities. Use showToolbar and toolbarPosition to enable a built-in toolbar.',
             },
         },
+                layout: 'fullscreen',
     },
+        decorators: [
+                        componentWrapperDecorator((story) => `
+                            <div class="h-screen">
+                                <div class="h-full">
+                                    ${story}
+                                </div>
+                            </div>
+                        `),
+        ],
 };
 
 export default meta;
@@ -378,6 +405,8 @@ export const Interactive: Story = {
                     [cropperCanvasClass]="cropperCanvasClass"
                     [cropperImageClass]="cropperImageClass"
                     [cropperShadeClass]="cropperShadeClass"
+                    [shadeHidden]="shadeHidden"
+                    [shadeThemeColor]="shadeThemeColor"
                     [cropperHandleClass]="cropperHandleClass"
                     [cropperSelectionClass]="cropperSelectionClass"
                     [cropperGridClass]="cropperGridClass"
@@ -492,6 +521,67 @@ export const MinimalCropper: Story = {
             description: {
                 story: 'Minimal cropper interface with grid, crosshair, and handles hidden.',
             },
+        },
+    },
+};
+
+// Toolbar-focused stories
+export const ToolbarBottom: Story = {
+    args: {
+        showToolbar: true,
+        toolbarPosition: 'bottom',
+        imageSrc: 'https://picsum.photos/800/600',
+        selectionInitialCoverage: 0.6,
+    },
+    parameters: {
+        docs: {
+            description: { story: 'Built-in toolbar displayed at the bottom.' },
+        },
+    },
+};
+
+export const ToolbarTop: Story = {
+    args: {
+        showToolbar: false,
+        toolbarPosition: 'top',
+        imageSrc: 'https://picsum.photos/800/600',
+        selectionInitialCoverage: 0.6,
+    },
+    parameters: {
+        docs: {
+            description: { story: 'Built-in toolbar displayed at the top.' },
+        },
+    },
+};
+
+export const ToolbarMinimal: Story = {
+    args: {
+        showToolbar: true,
+        toolbarPosition: 'bottom',
+        imageSrc: 'https://picsum.photos/800/600',
+        gridHidden: true,
+        crosshairHidden: true,
+        handlesHidden: true,
+        selectionOutlined: true,
+    },
+    parameters: {
+        docs: {
+            description: { story: 'Minimal UI with just the toolbar controls.' },
+        },
+    },
+};
+
+export const ToolbarFixedSquare: Story = {
+    args: {
+        showToolbar: true,
+        toolbarPosition: 'bottom',
+        imageSrc: 'https://picsum.photos/800/600',
+        selectionAspectRatio: 1,
+        selectionResizable: true,
+    },
+    parameters: {
+        docs: {
+            description: { story: 'Toolbar with a fixed 1:1 selection aspect ratio.' },
         },
     },
 };

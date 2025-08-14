@@ -1,0 +1,177 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: ['master', 'main']
+  pull_request:
+    branches: ['master', 'main']
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [20.x]
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+          
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+        
+      - name: Lint
+        run: pnpm lint
+        
+      - name: Test
+        run: pnpm test:ci
+        
+      - name: Build library
+        run: pnpm build:lib
+        
+      - name: Build Storybook
+        run: pnpm storybook:build
+        
+      - name: Build playground
+        run: pnpm build:app
+        
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
+        
+      - name: Create deployment structure
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
+        run: |
+          mkdir -p dist/gh-pages
+          
+          # Copy Storybook build
+          if [ -d "dist/storybook/ng-cropper" ]; then
+            cp -r dist/storybook/ng-cropper/* dist/gh-pages/
+            mkdir -p dist/gh-pages/storybook
+            cp -r dist/storybook/ng-cropper/* dist/gh-pages/storybook/
+          fi
+          
+          # Copy playground build  
+          if [ -d "dist/apps/ng-cropper-playground" ]; then
+            mkdir -p dist/gh-pages/playground
+            cp -r dist/apps/ng-cropper-playground/* dist/gh-pages/playground/
+          fi
+          
+          # Create index.html that redirects to storybook
+          cat > dist/gh-pages/index.html << 'EOF'
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <title>NgCropper - Angular Image Cropper Library</title>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <style>
+              body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+                margin: 0;
+                padding: 40px;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              }
+              .container {
+                background: white;
+                border-radius: 12px;
+                padding: 60px 40px;
+                text-align: center;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+                max-width: 500px;
+              }
+              h1 {
+                color: #333;
+                margin-bottom: 20px;
+                font-size: 2.5rem;
+              }
+              p {
+                color: #666;
+                margin-bottom: 40px;
+                font-size: 1.1rem;
+                line-height: 1.6;
+              }
+              .buttons {
+                display: flex;
+                gap: 20px;
+                justify-content: center;
+                flex-wrap: wrap;
+              }
+              .btn {
+                display: inline-block;
+                padding: 12px 24px;
+                text-decoration: none;
+                border-radius: 8px;
+                font-weight: 600;
+                transition: transform 0.2s;
+                min-width: 140px;
+              }
+              .btn:hover {
+                transform: translateY(-2px);
+              }
+              .btn-primary {
+                background: #667eea;
+                color: white;
+              }
+              .btn-secondary {
+                background: #f8f9fa;
+                color: #333;
+                border: 1px solid #ddd;
+              }
+            </style>
+          </head>
+          <body>
+            <div class="container">
+              <h1>NgCropper</h1>
+              <p>Angular image cropper library built on CropperJS with optional built-in toolbar</p>
+              <div class="buttons">
+                <a href="./storybook/" class="btn btn-primary">📚 Documentation</a>
+                <a href="./playground/" class="btn btn-secondary">🎮 Playground</a>
+              </div>
+            </div>
+          </body>
+          </html>
+          EOF
+          
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
+        with:
+          path: dist/gh-pages
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
