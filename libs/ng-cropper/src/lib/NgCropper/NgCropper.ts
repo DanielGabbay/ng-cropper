@@ -1,7 +1,9 @@
+import { HttpClient } from '@angular/common/http';
 import {
     AfterViewInit,
     ChangeDetectionStrategy,
     Component,
+    computed,
     CUSTOM_ELEMENTS_SCHEMA,
     effect,
     ElementRef,
@@ -11,6 +13,7 @@ import {
     viewChild,
     viewChildren,
 } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import {
     CropperCanvas,
     CropperCanvasElement,
@@ -35,9 +38,11 @@ import {
     styleUrl: './NgCropper.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    providers: [HttpClient],
 })
 export class NgCropper implements AfterViewInit {
     private readonly elementRef = inject(ElementRef);
+    private readonly domSanitizer = inject(DomSanitizer);
     // ================== Element References ==================
     public readonly cropperCanvasRef = viewChild.required<ElementRef<CropperCanvasElement>>('cropperCanvas', { debugName: 'cropperCanvasRef' });
     public readonly cropperImageRef = viewChild.required<ElementRef<CropperImageElement>>('cropperImage', { debugName: 'cropperImageRef' });
@@ -76,7 +81,8 @@ export class NgCropper implements AfterViewInit {
     imageInitialCenterSize: InputSignalWithTransform<'contain' | 'cover' | 'none', unknown> = input('contain', {
         transform: (value) => (['contain', 'cover', 'none'].includes(String(value)) ? value : 'contain') as 'contain' | 'cover' | 'none',
     });
-    imageSrc = input<string>('https://picsum.photos/800/600');
+    imageSrc = input<string>('');
+    image$ = computed<string>(() => this.imageSrc());
     imageAlt = input<string>('The image to crop');
 
     // ================== Shade Inputs ==================
@@ -101,7 +107,7 @@ export class NgCropper implements AfterViewInit {
     selectionMultiple = input<boolean>(false);
     selectionKeyboard = input<boolean>(false);
     selectionOutlined = input<boolean>(false);
-    selectionPrecise = input<boolean>(false);
+    selectionPrecise = input<boolean>(true);
 
     // ================== Grid Inputs ==================
     gridConfig = input<Partial<CropperGrid>>();
@@ -121,9 +127,6 @@ export class NgCropper implements AfterViewInit {
     // ================== Handle Inputs ==================
     handlesHidden = input<boolean>(false);
     handlesThemeColor = input<string>('rgba(51, 153, 255, 0.5)');
-    mainHandleAction = input('select', {
-        transform: (value) => (['none', 'select', 'move'].includes(String(value)) ? value : 'select') as 'select' | 'move' | 'none',
-    });
     handlesPlain = input<boolean>(true);
 
     constructor() {
@@ -204,13 +207,18 @@ export class NgCropper implements AfterViewInit {
         const image = this.cropperImageRef()?.nativeElement;
         if (!image) return;
 
+        const imageElement = image.$image;
+        if (imageElement) {
+            imageElement.setAttribute('crossorigin', 'anonymous');
+        }
+
         image.hidden = this.imageHidden();
         image.rotatable = this.imageRotatable();
         image.scalable = this.imageScalable();
         image.skewable = this.imageSkewable();
         image.translatable = this.imageTranslatable();
         image.initialCenterSize = this.imageInitialCenterSize();
-        if (image.$image) image.$image.src = this.imageSrc();
+        if (image.$image) image.$image.src = this.image$();
         if (image.$image) image.$image.alt = this.imageAlt();
 
         if (this.imageConfig()) {
@@ -394,7 +402,82 @@ export class NgCropper implements AfterViewInit {
         return this.cropperSelectionRef().nativeElement.$zoom(ratio);
     }
 
-    public selectionToCanvas(): Promise<HTMLCanvasElement> {
-        return this.cropperSelectionRef().nativeElement.$toCanvas();
+    public selectionToCanvas(options?: {
+        width?: number;
+        height?: number;
+        beforeDraw?: (context: CanvasRenderingContext2D, canvas: HTMLCanvasElement) => void;
+    }): Promise<HTMLCanvasElement> {
+        // The cropper selection accepts a compatible options object
+        return this.cropperSelectionRef().nativeElement.$toCanvas(options ?? undefined);
+    }
+
+    /**
+     * Export the current selection as a Base64 data URL.
+     *
+     * @param type The MIME type, e.g. 'image/png' (default) or 'image/jpeg'.
+     * @param quality For image/jpeg or image/webp, a number between 0 and 1.
+     * @param options Optional canvas generation options: width/height to control output resolution,
+     *                backgroundColor to fill before drawing (useful for JPEG), and beforeDraw hook.
+     */
+    public async selectionToDataURL(
+        type = 'image/png',
+        quality?: number,
+        options?: {
+            width?: number;
+            height?: number;
+            backgroundColor?: string;
+            beforeDraw?: (context: CanvasRenderingContext2D, canvas: HTMLCanvasElement) => void;
+        }
+    ): Promise<string> {
+        const canvas = await this.selectionToCanvas({
+            width: options?.width,
+            height: options?.height,
+            beforeDraw: (ctx, cvs) => {
+                if (options?.backgroundColor) {
+                    ctx.save();
+                    ctx.fillStyle = options.backgroundColor;
+                    ctx.fillRect(0, 0, cvs.width, cvs.height);
+                    ctx.restore();
+                }
+                options?.beforeDraw?.(ctx, cvs);
+            },
+        });
+        return canvas.toDataURL(type, quality);
+    }
+
+    /**
+     * Export the current selection as a Blob.
+     *
+     * Prefer this for large images to avoid base64 overhead.
+     */
+    public async selectionToBlob(
+        type = 'image/png',
+        quality?: number,
+        options?: {
+            width?: number;
+            height?: number;
+            backgroundColor?: string;
+            beforeDraw?: (context: CanvasRenderingContext2D, canvas: HTMLCanvasElement) => void;
+        }
+    ): Promise<Blob> {
+        const canvas = await this.selectionToCanvas({
+            width: options?.width,
+            height: options?.height,
+            beforeDraw: (ctx, cvs) => {
+                if (options?.backgroundColor) {
+                    ctx.save();
+                    ctx.fillStyle = options.backgroundColor;
+                    ctx.fillRect(0, 0, cvs.width, cvs.height);
+                    ctx.restore();
+                }
+                options?.beforeDraw?.(ctx, cvs);
+            },
+        });
+        return new Promise<Blob>((resolve, reject) => {
+            canvas.toBlob((blob) => {
+                if (blob) return resolve(blob);
+                reject(new Error('Canvas toBlob returned null'));
+            }, type, quality);
+        });
     }
 }

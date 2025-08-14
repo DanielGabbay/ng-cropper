@@ -317,7 +317,7 @@ const meta: Meta<NgCropper> = {
         selectionMultiple: false,
         selectionKeyboard: false,
         selectionOutlined: false,
-        selectionPrecise: false,
+        selectionPrecise: true,
 
         // Grid defaults
         gridHidden: false,

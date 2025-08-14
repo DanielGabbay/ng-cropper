@@ -28,7 +28,7 @@ export type NgCropperConfig = {
     >;
     grid: Pick<CropperGrid, 'hidden' | 'rows' | 'columns' | 'bordered' | 'covered' | 'themeColor'>;
     crosshair: Pick<CropperCrosshair, 'hidden' | 'centered' | 'themeColor'>;
-    handles: Pick<CropperHandle, 'hidden' | 'themeColor' | 'action' | 'plain'>;
+    handles: Pick<CropperHandle, 'hidden' | 'themeColor'>;
     partials: {
         canvas?: Partial<CropperCanvas>;
         image?: Partial<CropperImage>;
@@ -76,7 +76,7 @@ export const NgCropperInitialState = Object.freeze<NgCropperConfig>({
         multiple: false,
         keyboard: false,
         outlined: true,
-        precise: false,
+        precise: true,
     },
     grid: {
         hidden: false,
@@ -94,8 +94,6 @@ export const NgCropperInitialState = Object.freeze<NgCropperConfig>({
     handles: {
         hidden: false,
         themeColor: 'rgba(51, 153, 255, 0.5)',
-        action: 'select',
-        plain: true,
     },
     partials: {
         canvas: {},

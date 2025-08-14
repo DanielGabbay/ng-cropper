@@ -37,9 +37,7 @@
                 ></textarea>
                 <div class="flex gap-2">
                     <button (click)="applyConfig()" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded transition-colors flex-1">Apply Changes</button>
-                    <button (click)="updateJsonString()" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded transition-colors flex-1">
-                        Refresh JSON
-                    </button>
+                    <button (click)="updateJsonString()" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded transition-colors flex-1">Refresh JSON</button>
                 </div>
             </div>
         </div>
@@ -105,8 +103,6 @@
             [crosshairThemeColor]="config().crosshair.themeColor"
             [handlesHidden]="config().handles.hidden"
             [handlesThemeColor]="config().handles.themeColor"
-            [mainHandleAction]="config().handles.action"
-            [handlesPlain]="config().handles.plain"
         />
     </div>
 </div>

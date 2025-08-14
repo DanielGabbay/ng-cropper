@@ -52,6 +52,9 @@ export class Toolbar {
     /** Crop the selection */
     async crop() {
         try {
+            debugger;
+            const dataUrl = await this.cropperRef().selectionToDataURL();
+            const blob = await this.cropperRef().selectionToBlob();
             const canvas = await this.cropperRef().selectionToCanvas();
             // Create download link
             const link = document.createElement('a');

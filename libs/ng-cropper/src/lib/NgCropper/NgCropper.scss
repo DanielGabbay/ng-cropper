@@ -40,17 +40,23 @@
     flex-direction: column;
     width: var(--cropper-container-width, 100%);
     height: var(--cropper-container-height, 100%);
+    position: relative;
+    box-sizing: border-box;
 
     .cropper-canvas {
         flex: 1;
-        width: var(--cropper-canvas-width, 100%) !important;
-        height: var(--cropper-canvas-height, 100%) !important;
+        width: var(--cropper-canvas-width, 100%);
+        height: var(--cropper-canvas-height, 100%);
+        display: block;
+        box-sizing: border-box;
     }
 
     .cropper-image {
-        flex: 1;
-        width: var(--cropper-image-width, 100%) !important;
-        height: var(--cropper-image-height, 100%) !important;
+        flex: 1 1 auto;
+        width: var(--cropper-image-width, 100%);
+        height: var(--cropper-image-height, 100%);
+        display: block;
+        box-sizing: border-box;
     }
 
     // Force hide shade element when hidden attribute is present
@@ -58,4 +64,15 @@
         display: none !important;
     }
 
+}
+
+// Ensure all cropper elements use border-box to avoid layout drift with borders/padding
+.ng-cropper-container cropper-canvas,
+.ng-cropper-container cropper-image,
+.ng-cropper-container cropper-shade,
+.ng-cropper-container cropper-selection,
+.ng-cropper-container cropper-grid,
+.ng-cropper-container cropper-crosshair,
+.ng-cropper-container cropper-handle {
+    box-sizing: border-box;
 }
