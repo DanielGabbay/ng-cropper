@@ -17,7 +17,8 @@
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
       "options": {
-        "project": "libs/ng-cropper/ng-package.json"
+        "project": "libs/ng-cropper/ng-package.json",
+        "styles": ["node_modules/cropperjs/dist/cropper.css"]
       },
       "configurations": {
         "production": {
