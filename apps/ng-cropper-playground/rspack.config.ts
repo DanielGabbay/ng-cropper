@@ -6,7 +6,7 @@ export default createConfig(
       root: __dirname,
 
       outputPath: {
-        base: '../../dist/apps/ng-cropper',
+        base: '../../dist/apps/NgCropper-playground',
       },
       index: './src/index.html',
       browser: './src/main.ts',

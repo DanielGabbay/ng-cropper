@@ -1,8 +1,8 @@
 export default {
-  displayName: 'ng-cropper',
+  displayName: 'NgCropper',
   preset: '../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../coverage/apps/ng-cropper',
+  coverageDirectory: '../../coverage/libs/NgCropper',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

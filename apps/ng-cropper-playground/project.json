@@ -1,5 +1,5 @@
 {
-  "name": "ng-cropper",
+  "name": "ng-cropper-playground",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "prefix": "app",
@@ -9,7 +9,7 @@
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "buildTarget": "ng-cropper:build"
+        "buildTarget": "ng-cropper-playground:build"
       }
     },
     "lint": {
@@ -19,7 +19,7 @@
       "continuous": true,
       "executor": "@nx/web:file-server",
       "options": {
-        "buildTarget": "ng-cropper:build",
+        "buildTarget": "ng-cropper-playground:build",
         "spa": true
       }
     }

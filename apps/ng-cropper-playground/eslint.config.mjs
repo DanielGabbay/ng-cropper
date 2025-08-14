@@ -21,7 +21,7 @@ export default [
         {
           type: 'element',
           prefix: 'app',
-          style: 'kebab-case',
+          style: 'CamelCase',
         },
       ],
     },
