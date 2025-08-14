@@ -1,1 +1,1 @@
-export * from './lib/NgCropper/NgCropper';
+export * from './lib/public.api';
