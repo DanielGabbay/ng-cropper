@@ -15,7 +15,7 @@
         "skipDefaultLibCheck": true,
         "baseUrl": ".",
         "paths": {
-            "@dg/ng-cropper": ["dist/libs/ng-cropper"]
+            "ng-cropper-lib": ["dist/libs/ng-cropper"]
         }
     },
     "exclude": ["node_modules", "tmp"]

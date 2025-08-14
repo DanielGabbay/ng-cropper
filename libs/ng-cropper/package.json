@@ -1,5 +1,5 @@
 {
-    "name": "@dg/ng-cropper",
+    "name": "ng-cropper-lib",
     "version": "1.0.0",
     "description": "Angular image cropper library built on CropperJS with optional built-in toolbar. Modern, customizable, and TypeScript-ready.",
     "author": {

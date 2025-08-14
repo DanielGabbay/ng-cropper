@@ -14,7 +14,7 @@ export default [
         'error',
         {
           enforceBuildableLibDependency: true,
-          allow: ['^.*/eslint(\\.base)?\\.config\\.[cm]?[jt]s$', '^@dg/ng-cropper$'],
+          allow: ['^.*/eslint(\\.base)?\\.config\\.[cm]?[jt]s$', '^ng-cropper-lib$'],
           depConstraints: [
             {
               sourceTag: '*',

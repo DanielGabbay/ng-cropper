@@ -1,7 +1,7 @@
 import { bootstrapApplication } from '@angular/platform-browser';
 import { NgCropperPlaygroundApp } from './app/NgCropperPlaygroundApp';
 import { appConfig } from './app/app.config';
-import { provideCropperJS } from '@dg/ng-cropper';
+import { provideCropperJS } from 'ng-cropper-lib';
 
 // Initialize CropperJS before bootstrapping
 provideCropperJS().then(() => {
