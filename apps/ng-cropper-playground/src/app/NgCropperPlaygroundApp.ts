@@ -1,9 +1,9 @@
 import { Component, linkedSignal, signal, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgCropper, NgCropperConfig, NgCropperInitialState, Toolbar } from '@dg/ng-cropper';
+import { NgCropper, NgCropperConfig, NgCropperInitialState } from '@dg/ng-cropper';
 
 @Component({
-    imports: [NgCropper, Toolbar, FormsModule],
+    imports: [NgCropper, FormsModule],
     selector: 'ngCropperPlaygroundApp',
     templateUrl: './NgCropperPlaygroundApp.html',
     schemas: [],

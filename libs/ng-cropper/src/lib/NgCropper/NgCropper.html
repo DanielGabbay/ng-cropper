@@ -1,4 +1,9 @@
 <div class="ng-cropper-container border border-gray-300 rounded-lg shadow-lg" [class]="cropperContainerClass()">
+    @if (showToolbar() && toolbarPosition() === 'top') {
+    <div class="flex justify-center py-2 bg-gray-50 border-b">
+        <ngCropperToolbar [cropperRef]="cropperSelf" />
+    </div>
+    }
     <cropper-canvas class="cropper-canvas" #cropperCanvas [class]="cropperCanvasClass()">
         <cropper-image class="cropper-image" #cropperImage [class]="cropperImageClass()" />
 
@@ -32,4 +37,9 @@
             <cropper-handle #cropperHandle class="cropper-handle sw-resize" [class]="cropperHandleClass()" action="sw-resize" />
         </cropper-selection>
     </cropper-canvas>
+    @if (showToolbar() && toolbarPosition() === 'bottom') {
+    <div class="flex justify-center py-2 bg-gray-50 border-t">
+        <ngCropperToolbar [cropperRef]="cropperSelf" />
+    </div>
+    }
 </div>

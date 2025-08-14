@@ -5,6 +5,18 @@ const meta: Meta<NgCropper> = {
     component: NgCropper,
     title: 'NgCropper',
     argTypes: {
+        // Toolbar
+        showToolbar: {
+            control: 'boolean',
+            description: 'Show the built-in toolbar',
+            table: { category: 'Toolbar' },
+        },
+        toolbarPosition: {
+            control: { type: 'inline-radio' },
+            options: ['top', 'bottom'],
+            description: 'Toolbar position',
+            table: { category: 'Toolbar' },
+        },
         // Style Customization
         ngCropperStyleClass: {
             control: 'text',
@@ -284,6 +296,8 @@ const meta: Meta<NgCropper> = {
         },
     },
     args: {
+    showToolbar: false,
+    toolbarPosition: 'bottom',
         // Canvas defaults
         canvasHidden: false,
         canvasBackground: true,
@@ -357,6 +371,8 @@ export const Interactive: Story = {
         props: args,
         template: `
                 <ngCropper 
+                    [showToolbar]="showToolbar"
+                    [toolbarPosition]="toolbarPosition"
                     [ngCropperStyleClass]="ngCropperStyleClass"
                     [cropperContainerClass]="cropperContainerClass"
                     [cropperCanvasClass]="cropperCanvasClass"
@@ -405,7 +421,7 @@ export const Interactive: Story = {
                     [crosshairCentered]="crosshairCentered"
                     [crosshairThemeColor]="crosshairThemeColor"
                     [handlesHidden]="handlesHidden"
-                    [handleThemeColor]="handleThemeColor">
+                    [handlesThemeColor]="handlesThemeColor">
                 </ngCropper>
         `,
     }),

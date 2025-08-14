@@ -4,6 +4,10 @@ import { CropperCanvas, CropperCrosshair, CropperGrid, CropperHandle, CropperIma
 export type SignalValue<T> = T extends Signal<infer U> ? U : never;
 ///////////////
 export type NgCropperConfig = {
+    toolbar: {
+        show: boolean;
+        position: 'top' | 'bottom';
+    };
     canvas: Pick<CropperCanvas, 'hidden' | 'background' | 'disabled' | 'scaleStep' | 'themeColor'>;
     image: Pick<CropperImage, 'hidden' | 'rotatable' | 'scalable' | 'skewable' | 'translatable' | 'initialCenterSize'> & Pick<CropperImage['$image'], 'src' | 'alt'>;
     shade: Pick<CropperShade, 'hidden' | 'themeColor'>;
@@ -39,6 +43,10 @@ export type NgCropperConfig = {
     };
 };
 export const NgCropperInitialState = Object.freeze<NgCropperConfig>({
+    toolbar: {
+        show: false,
+        position: 'bottom',
+    },
     canvas: {
         hidden: false,
         background: true,

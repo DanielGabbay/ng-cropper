@@ -46,15 +46,12 @@
 
     <!-- Main Content Area -->
     <div class="flex-1 flex flex-col">
-        <!-- Toolbar -->
-        <div class="flex justify-center py-2 bg-gray-50 border-b">
-            <ngCropperToolbar [cropperRef]="cropperRef()" />
-        </div>
-
-        <!-- Cropper -->
+        <!-- Cropper with built-in toolbar -->
         <ngCropper
             class="h-full flex-1"
             #cropper
+            [showToolbar]="config().toolbar.show"
+            [toolbarPosition]="config().toolbar.position"
             [canvasConfig]="config().partials.canvas"
             [canvasHidden]="config().canvas.hidden"
             [canvasBackground]="config().canvas.background"

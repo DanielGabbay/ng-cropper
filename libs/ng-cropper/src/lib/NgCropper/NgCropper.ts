@@ -30,10 +30,11 @@ import {
     CropperShadeElement,
     provideCropperJS,
 } from '../providers/cropperjs.provider';
+import { Toolbar } from '../components/Toolbar/Toolbar';
 
 @Component({
     selector: 'ngCropper',
-    imports: [],
+    imports: [Toolbar],
     templateUrl: './NgCropper.html',
     styleUrl: './NgCropper.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -43,6 +44,8 @@ import {
 export class NgCropper implements AfterViewInit {
     private readonly elementRef = inject(ElementRef);
     private readonly domSanitizer = inject(DomSanitizer);
+    // Expose component instance to template (to pass as toolbar input)
+    public readonly cropperSelf: NgCropper = this;
     // ================== Element References ==================
     public readonly cropperCanvasRef = viewChild.required<ElementRef<CropperCanvasElement>>('cropperCanvas', { debugName: 'cropperCanvasRef' });
     public readonly cropperImageRef = viewChild.required<ElementRef<CropperImageElement>>('cropperImage', { debugName: 'cropperImageRef' });
@@ -62,6 +65,12 @@ export class NgCropper implements AfterViewInit {
     cropperSelectionClass = input('cropper-selection', { transform: (classesString: string) => 'cropper-selection ' + classesString });
     cropperGridClass = input('cropper-grid', { transform: (classesString: string) => 'cropper-grid ' + classesString });
     cropperCrosshairClass = input('cropper-crosshair', { transform: (classesString: string) => 'cropper-crosshair ' + classesString });
+
+    // ================== Toolbar Inputs ==================
+    showToolbar = input<boolean>(false);
+    toolbarPosition: InputSignalWithTransform<'top' | 'bottom', unknown> = input('bottom', {
+        transform: (value) => (value === 'top' || value === 'bottom' ? (value as 'top' | 'bottom') : 'bottom'),
+    });
 
     // ================== Canvas Inputs ==================
     canvasConfig = input<Partial<CropperCanvas>>();

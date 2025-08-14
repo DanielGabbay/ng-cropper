@@ -1,9 +1,24 @@
 {
   "name": "@dg/ng-cropper",
   "version": "0.0.1",
+  "description": "Angular image cropper built on cropperjs web components with optional toolbar",
+  "author": "Daniel Gabbay",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DanielGabbay/ng-cropper"
+  },
+  "bugs": {
+    "url": "https://github.com/DanielGabbay/ng-cropper/issues"
+  },
+  "homepage": "https://github.com/DanielGabbay/ng-cropper#readme",
   "peerDependencies": {
     "@angular/common": "^20.1.0",
-    "@angular/core": "^20.1.0"
+    "@angular/core": "^20.1.0",
+  "@angular/platform-browser": "^20.1.0",
+  "@angular/elements": "^20.1.0",
+  "cropperjs": "^2.0.1",
+  "lucide-angular": "^0.539.0"
   },
   "sideEffects": false
 }
