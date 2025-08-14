@@ -1,4 +1,3 @@
-import { JsonPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, CUSTOM_ELEMENTS_SCHEMA, ElementRef, viewChild, viewChildren } from '@angular/core';
 import {
     CropperCanvasElement,
@@ -13,7 +12,7 @@ import {
 
 @Component({
     selector: 'ngCropper',
-    imports: [JsonPipe],
+    imports: [],
     templateUrl: './NgCropper.html',
     styleUrl: './NgCropper.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
