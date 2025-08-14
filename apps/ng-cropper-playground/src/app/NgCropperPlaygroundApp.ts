@@ -5,10 +5,10 @@ import { NgCropper } from '@dg/ng-cropper';
 
 @Component({
   imports: [NxWelcome, RouterModule, NgCropper],
-  selector: 'NgCropperPlaygroundApp',
+  selector: 'ngCropperPlaygroundApp',
   templateUrl: './NgCropperPlaygroundApp.html',
   styleUrl: './NgCropperPlaygroundApp.scss',
 })
 export class NgCropperPlaygroundApp {
-  protected title = 'NgCropper-playground';
+  protected title = 'ngCropper-playground';
 }

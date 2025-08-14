@@ -12,7 +12,7 @@ export default [
         'error',
         {
           type: 'attribute',
-          prefix: 'app',
+          prefix: 'ngCropper',
           style: 'camelCase',
         },
       ],
@@ -20,8 +20,8 @@ export default [
         'error',
         {
           type: 'element',
-          prefix: 'app',
-          style: 'CamelCase',
+          prefix: 'ngCropper',
+          style: 'camelCase',
         },
       ],
     },

@@ -34,8 +34,8 @@ export default [
         'error',
         {
           type: 'element',
-          prefix: 'NgCropper',
-          style: 'CamelCase',
+          prefix: 'ngCropper',
+          style: 'camelCase',
         },
       ],
     },

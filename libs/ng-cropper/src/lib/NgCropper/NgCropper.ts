@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 
 @Component({
-  selector: 'NgCropper',
+  selector: 'ngCropper',
   imports: [],
   templateUrl: './NgCropper.html',
   styleUrl: './NgCropper.scss',
