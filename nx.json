@@ -16,7 +16,7 @@
             "!{projectRoot}/.storybook/**/*",
             "!{projectRoot}/tsconfig.storybook.json"
         ],
-        "sharedGlobals": ["{workspaceRoot}/.github/workflows/ci.yml"]
+        "sharedGlobals": []
     },
     "nxCloudId": "689d705b8470393f79fcd31a",
     "plugins": [
