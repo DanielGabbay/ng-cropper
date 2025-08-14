@@ -1,0 +1,31 @@
+/* Toolbar styles are now handled by Tailwind CSS classes in the HTML template */
+
+/* Optional: Add any custom styles that can't be achieved with Tailwind */
+.group:hover .group-hover\:opacity-100 {
+  opacity: 1;
+}
+
+/* Responsive adjustments for very small screens */
+@media (max-width: 480px) {
+  .ng-cropper-toolbar {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
+  
+  .ng-cropper-toolbar > div {
+    border-right: none !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  
+  .ng-cropper-toolbar button {
+    width: 2rem;
+    height: 2rem;
+  }
+  
+  .ng-cropper-toolbar svg {
+    width: 1rem;
+    height: 1rem;
+  }
+}

@@ -7,3 +7,43 @@
 html, body {
   @apply h-full;
 }
+
+/* Custom styles for the playground */
+.side-panel {
+  transition: width 0.3s ease-in-out;
+  min-width: 16rem; /* Minimum width when collapsed */
+}
+
+.side-panel h3 {
+  @apply text-sm font-medium text-gray-900 mb-2;
+}
+
+/* Smooth transitions for buttons */
+button {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Better textarea styling */
+textarea {
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  line-height: 1.4;
+}
+
+/* Scrollbar styling for webkit browsers */
+textarea::-webkit-scrollbar {
+  width: 8px;
+}
+
+textarea::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+textarea::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+textarea::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}

@@ -277,9 +277,9 @@ const meta: Meta<NgCropper> = {
             description: 'Hide/show resize handles',
             table: { category: 'Handles' },
         },
-        handleThemeColor: {
+        handlesThemeColor: {
             control: 'color',
-            description: 'Handle theme color',
+            description: 'Handles theme color',
             table: { category: 'Handles' },
         },
     },
@@ -334,7 +334,7 @@ const meta: Meta<NgCropper> = {
 
         // Handles defaults
         handlesHidden: false,
-        handleThemeColor: 'rgba(51, 153, 255, 0.5)',
+        handlesThemeColor: 'rgba(51, 153, 255, 0.5)',
     },
     parameters: {
         docs: {

@@ -2,8 +2,31 @@
 @tailwind components;
 @tailwind utilities;
 
+// ======== Design Tokens =========
 :host {
-    @apply block h-dvh;
+    // Cropper
+    --cropper-display: block;
+    --cropper-height: 100%;
+    --cropper-width: 100%;
+
+    // Cropper Container
+    --cropper-container-width: 100%;
+    --cropper-container-height: 100%;
+
+    // Cropper Canvas
+    --cropper-canvas-width: 100%;
+    --cropper-canvas-height: 100%;
+
+    // Cropper Image
+    --cropper-image-width: 100%;
+    --cropper-image-height: 100%;
+}
+
+:host {
+    display: var(--cropper-display, block) !important;
+    height: var(--cropper-height, 100%) !important;
+    width: var(--cropper-width, 100%) !important;
+    flex: 1;
 }
 
 ::ng-deep {
@@ -13,10 +36,26 @@
 }
 
 .ng-cropper-container {
-    @apply flex items-center justify-center w-full h-full;
+    display: flex;
+    flex-direction: column;
+    width: var(--cropper-container-width, 100%);
+    height: var(--cropper-container-height, 100%);
 
     .cropper-canvas {
-        @apply relative w-full h-full;
+        flex: 1;
+        width: var(--cropper-canvas-width, 100%) !important;
+        height: var(--cropper-canvas-height, 100%) !important;
+    }
+
+    .cropper-image {
+        flex: 1;
+        width: var(--cropper-image-width, 100%) !important;
+        height: var(--cropper-image-height, 100%) !important;
+    }
+
+    // Force hide shade element when hidden attribute is present
+    cropper-shade[hidden] {
+        display: none !important;
     }
 
 }

@@ -32,6 +32,9 @@ dependencies:
   cropperjs:
     specifier: ^2.0.1
     version: 2.0.1
+  lucide-angular:
+    specifier: ^0.539.0
+    version: 0.539.0(@angular/common@20.1.7)(@angular/core@20.1.7)
   rxjs:
     specifier: ~7.8.0
     version: 7.8.2
@@ -13212,6 +13215,17 @@ packages:
     resolution: {integrity: sha512-jumlc0BIUrS3qJGgIkWZsyfAM7NCWiBcCDhnd+3NNM5KbBmLTgHVfWBcg6W+rLUsIpzpERPsvwUP7CckAQSOoA==}
     engines: {node: '>=12'}
     dev: true
+
+  /lucide-angular@0.539.0(@angular/common@20.1.7)(@angular/core@20.1.7):
+    resolution: {integrity: sha512-Jqp1577Nn/mIKKjm2yLXrgGf7OUz0DBC1JuND9Zc1DOaVVi5ava8+KCxlATIO/f+3hlqQ9D2CZe3nFzGK0ZYuQ==}
+    peerDependencies:
+      '@angular/common': 13.x - 20.x
+      '@angular/core': 13.x - 20.x
+    dependencies:
+      '@angular/common': 20.1.7(@angular/core@20.1.7)(rxjs@7.8.2)
+      '@angular/core': 20.1.7(@angular/compiler@20.1.7)(rxjs@7.8.2)(zone.js@0.15.1)
+      tslib: 2.8.1
+    dev: false
 
   /luxon@3.7.1:
     resolution: {integrity: sha512-RkRWjA926cTvz5rAb1BqyWkKbbjzCGchDUIKMCUvNi17j6f6j8uHGDV82Aqcqtzd+icoYpELmG3ksgGiFNNcNg==}
