@@ -3,5 +3,6 @@
   "dest": "../../dist/libs/ng-cropper",
   "lib": {
     "entryFile": "src/index.ts"
-  }
+  },
+  "allowedNonPeerDependencies": ["cropperjs"]
 }
