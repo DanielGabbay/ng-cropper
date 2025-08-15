@@ -1,3 +1,5 @@
+import { TemplateRef } from '@angular/core';
+
 export const DEFAULT_TOOLBAR_ICONS = {
     rotateLeft:
         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 672 672"><path d="M532 336C532 273.6 512.3 225.2 479.5 192.5C446.7 159.8 398.4 140 336 140C290.2 140 252 150.6 222.1 169.1C245 194.1 263.6 219.7 271.2 230.5C277.1 238.9 280 248.7 280 258.5C280 285.8 257.9 308 230.5 308L112 308C81.1 308 56 282.9 56 252L56 133.5C56 106.2 78.1 84 105.5 84C115.3 84 125.1 86.9 133.5 92.8C142.3 99 160.7 112.4 180.7 129.4C222.7 99.5 275.8 84 336 84C410.5 84 474.1 107.8 519.1 152.9C564.1 198 588 261.5 588 336C588 410.5 564.2 474.1 519.1 519.1C474 564.1 410.5 588 336 588C232.8 588 151.3 542.1 111 460.4C104.2 446.5 109.9 429.7 123.7 422.9C137.5 416.1 154.4 421.8 161.2 435.6C190.5 495.1 250.4 532 336 532C398.4 532 446.8 512.3 479.5 479.5C512.2 446.7 532 398.4 532 336zM169.2 194.8C149.6 175.2 126.9 157.4 112 146.4L112 252L217.6 252C206.6 237.1 188.8 214.4 169.2 194.8z"/></svg>',
@@ -8,5 +10,51 @@ export const DEFAULT_TOOLBAR_ICONS = {
     reset: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M545.7 304.1C528.1 302.9 512.8 316.1 511.5 333.8C508.2 380.8 487.9 423.2 456.7 454.8L425 423C418.1 416.1 407.8 414.1 398.8 417.8C389.8 421.5 384 430.3 384 440L384 552C384 565.3 394.7 576 408 576L520 576C529.7 576 538.5 570.2 542.2 561.2C545.9 552.2 543.9 541.9 537 535L502 500C543.7 457.8 570.9 401.2 575.4 338.2C576.6 320.6 563.4 305.3 545.7 304zM103 105L138 140C96.3 182.2 69.1 238.8 64.6 301.8C63.4 319.4 76.6 334.7 94.3 336C112 337.3 127.2 324 128.5 306.3C131.8 259.3 152.1 216.9 183.3 185.3L215 217C221.9 223.9 232.2 225.9 241.2 222.2C250.2 218.5 256 209.7 256 200L256 88C256 74.7 245.3 64 232 64L120 64C110.3 64 101.5 69.8 97.8 78.8C94.1 87.8 96.2 98.1 103 105zM304 94.3C302.8 111.9 316 127.2 333.7 128.5C380.7 131.8 423.1 152.1 454.7 183.3L423 215C416.1 221.9 414.1 232.2 417.8 241.2C421.5 250.2 430.3 256 440 256L552 256C565.3 256 576 245.3 576 232L576 120C576 110.3 570.2 101.5 561.2 97.8C552.2 94.1 541.9 96.2 535 103L500 138C457.8 96.3 401.2 69.1 338.2 64.6C320.6 63.4 305.3 76.6 304 94.3zM105 537L140 502C182.2 543.7 238.8 570.9 301.8 575.4C319.4 576.6 334.7 563.4 336 545.7C337.3 528 324 512.8 306.3 511.5C259.3 508.2 216.9 487.9 185.3 456.7L217 425C223.9 418.1 225.9 407.8 222.2 398.8C218.5 389.8 209.7 384 200 384L88 384C74.7 384 64 394.7 64 408L64 520C64 529.7 69.8 538.5 78.8 542.2C87.8 545.9 98.1 543.8 105 537z"/></svg>`,
 } as const;
 
-
 export type ToolbarToolType = keyof typeof DEFAULT_TOOLBAR_ICONS;
+
+/**
+ * Toolbar configuration with icons and visibility settings
+ */
+export type ToolbarConfig = {
+    show: boolean;
+    position: 'top' | 'bottom';
+    visibleTools: Set<ToolbarToolType> | ToolbarToolType[];
+    icons: Partial<{
+        rotateLeft: string | TemplateRef<unknown>;
+        rotateRight: string | TemplateRef<unknown>;
+        zoomIn: string | TemplateRef<unknown>;
+        zoomOut: string | TemplateRef<unknown>;
+        crop: string | TemplateRef<unknown>;
+        reset: string | TemplateRef<unknown>;
+    }>;
+    tooltips: Partial<{
+        rotateLeft: string;
+        rotateRight: string;
+        zoomIn: string;
+        zoomOut: string;
+        crop: string;
+        reset: string;
+    }>;
+};
+
+export const ToolbarConfigInitialState: ToolbarConfig = {
+    show: true,
+    position: 'top',
+    visibleTools: new Set<ToolbarToolType>(Object.keys(DEFAULT_TOOLBAR_ICONS) as ToolbarToolType[]),
+    icons: {
+        rotateLeft: DEFAULT_TOOLBAR_ICONS.rotateLeft,
+        rotateRight: DEFAULT_TOOLBAR_ICONS.rotateRight,
+        zoomIn: DEFAULT_TOOLBAR_ICONS.zoomIn,
+        zoomOut: DEFAULT_TOOLBAR_ICONS.zoomOut,
+        crop: DEFAULT_TOOLBAR_ICONS.crop,
+        reset: DEFAULT_TOOLBAR_ICONS.reset,
+    },
+    tooltips: {
+        rotateLeft: 'Rotate Left',
+        rotateRight: 'Rotate Right',
+        zoomIn: 'Zoom In',
+        zoomOut: 'Zoom Out',
+        crop: 'Crop',
+        reset: 'Reset',
+    },
+};

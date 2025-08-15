@@ -1,13 +1,11 @@
 import { CropperCanvas, CropperCrosshair, CropperGrid, CropperHandle, CropperImage, CropperSelection, CropperShade } from 'cropperjs';
+import { ToolbarConfig, ToolbarConfigInitialState } from './components/Toolbar/toolbar.config';
 
 /**
  * Configuration for the ng-cropper component.
  */
 export type NgCropperConfig = {
-    toolbar: {
-        show: boolean;
-        position: 'top' | 'bottom';
-    };
+    toolbar: ToolbarConfig;
     canvas: Pick<CropperCanvas, 'hidden' | 'background' | 'disabled' | 'scaleStep' | 'themeColor'>;
     image: Pick<CropperImage, 'hidden' | 'rotatable' | 'scalable' | 'skewable' | 'translatable' | 'initialCenterSize'> & Pick<CropperImage['$image'], 'src' | 'alt'>;
     shade: Pick<CropperShade, 'hidden' | 'themeColor'>;
@@ -51,10 +49,7 @@ export type NgCropperConfig = {
  * It is also used as the default configuration when no configuration is provided.
  */
 export const NgCropperInitialState = Object.freeze<NgCropperConfig>({
-    toolbar: {
-        show: true,
-        position: 'bottom',
-    },
+    toolbar: ToolbarConfigInitialState,
     canvas: {
         hidden: false,
         background: true,

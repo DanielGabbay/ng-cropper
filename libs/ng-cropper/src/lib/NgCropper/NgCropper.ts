@@ -18,6 +18,7 @@ import {
     CropperShadeElement,
     provideCropperJS,
 } from '../providers/cropperjs.provider';
+import { mergeConfigurations } from '../utils/merge-configurations.util';
 
 @Component({
     selector: 'ngCropper',
@@ -54,8 +55,16 @@ export class NgCropper implements AfterViewInit {
     cropperCrosshairClass = input('cropper-crosshair', { transform: (classesString: string) => 'cropper-crosshair ' + classesString });
 
     // ================== Toolbar Inputs ==================
+    toolbarConfig = input<Partial<NgCropperConfig['toolbar']>>(NgCropperInitialState.toolbar);
     showToolbar = input<NgCropperConfig['toolbar']['show']>(NgCropperInitialState.toolbar.show);
     toolbarPosition = input<NgCropperConfig['toolbar']['position']>(NgCropperInitialState.toolbar.position);
+    protected readonly toolbar$ = computed(() => {
+        const config = this.toolbarConfig() || {};
+        const show = typeof this.showToolbar() === 'boolean' ? this.showToolbar() : NgCropperInitialState.toolbar.show;
+        const position = this.toolbarPosition() || NgCropperInitialState.toolbar.position;
+
+        return mergeConfigurations(NgCropperInitialState.toolbar, config, { show, position });
+    });
 
     // ================== Canvas Inputs ==================
     canvasConfig = input<Partial<CropperCanvas>>(NgCropperInitialState.canvas);
@@ -64,6 +73,16 @@ export class NgCropper implements AfterViewInit {
     canvasDisabled = input<NgCropperConfig['canvas']['disabled']>(NgCropperInitialState.canvas.disabled);
     canvasScaleStep = input<NgCropperConfig['canvas']['scaleStep']>(NgCropperInitialState.canvas.scaleStep);
     canvasThemeColor = input<NgCropperConfig['canvas']['themeColor']>(NgCropperInitialState.canvas.themeColor);
+    protected readonly canvas$ = computed(() => {
+        const config = this.canvasConfig() || {};
+        const hidden = this.canvasHidden();
+        const background = this.canvasBackground();
+        const disabled = this.canvasDisabled();
+        const scaleStep = this.canvasScaleStep();
+        const themeColor = this.canvasThemeColor();
+
+        return mergeConfigurations(NgCropperInitialState.canvas, config, { hidden, background, disabled, scaleStep, themeColor });
+    });
 
     // ================== Image Inputs ==================
     imageConfig = input<Partial<CropperImage>>(NgCropperInitialState.image);
@@ -76,11 +95,31 @@ export class NgCropper implements AfterViewInit {
     imageSrc = input<NgCropperConfig['image']['src']>(NgCropperInitialState.image.src);
     image$ = computed<NgCropperConfig['image']['src']>(() => this.imageSrc());
     imageAlt = input<NgCropperConfig['image']['alt']>(NgCropperInitialState.image.alt);
+    protected readonly imageConfig$ = computed(() => {
+        const config = this.imageConfig() || {};
+        const hidden = this.imageHidden();
+        const rotatable = this.imageRotatable();
+        const scalable = this.imageScalable();
+        const skewable = this.imageSkewable();
+        const translatable = this.imageTranslatable();
+        const initialCenterSize = this.imageInitialCenterSize();
+        const src = this.imageSrc();
+        const alt = this.imageAlt();
+
+        return mergeConfigurations(NgCropperInitialState.image, config, { hidden, rotatable, scalable, skewable, translatable, initialCenterSize, src, alt });
+    });
 
     // ================== Shade Inputs ==================
     shadeConfig = input<Partial<CropperShade>>(NgCropperInitialState.shade);
     shadeHidden = input<NgCropperConfig['shade']['hidden']>(NgCropperInitialState.shade.hidden);
     shadeThemeColor = input<NgCropperConfig['shade']['themeColor']>(NgCropperInitialState.shade.themeColor);
+    protected readonly shade$ = computed(() => {
+        const config = this.shadeConfig() || {};
+        const hidden = this.shadeHidden();
+        const themeColor = this.shadeThemeColor();
+
+        return mergeConfigurations(NgCropperInitialState.shade, config, { hidden, themeColor });
+    });
 
     // ================== Selection Inputs ==================
     selectionConfig = input<Partial<CropperSelection>>(NgCropperInitialState.selection);
@@ -100,6 +139,44 @@ export class NgCropper implements AfterViewInit {
     selectionKeyboard = input<NgCropperConfig['selection']['keyboard']>(NgCropperInitialState.selection.keyboard);
     selectionOutlined = input<NgCropperConfig['selection']['outlined']>(NgCropperInitialState.selection.outlined);
     selectionPrecise = input<NgCropperConfig['selection']['precise']>(NgCropperInitialState.selection.precise);
+    protected readonly selection$ = computed(() => {
+        const config = this.selectionConfig() || {};
+        const hidden = this.selectionHidden();
+        const x = this.selectionX();
+        const y = this.selectionY();
+        const width = this.selectionWidth();
+        const height = this.selectionHeight();
+        const aspectRatio = this.selectionAspectRatio();
+        const initialAspectRatio = this.selectionInitialAspectRatio();
+        const initialCoverage = this.selectionInitialCoverage();
+        const dynamic = this.selectionDynamic();
+        const movable = this.selectionMovable();
+        const resizable = this.selectionResizable();
+        const zoomable = this.selectionZoomable();
+        const multiple = this.selectionMultiple();
+        const keyboard = this.selectionKeyboard();
+        const outlined = this.selectionOutlined();
+        const precise = this.selectionPrecise();
+
+        return mergeConfigurations(NgCropperInitialState.selection, config, {
+            hidden,
+            x,
+            y,
+            width,
+            height,
+            aspectRatio,
+            initialAspectRatio,
+            initialCoverage,
+            dynamic,
+            movable,
+            resizable,
+            zoomable,
+            multiple,
+            keyboard,
+            outlined,
+            precise,
+        });
+    });
 
     // ================== Grid Inputs ==================
     gridConfig = input<Partial<CropperGrid>>(NgCropperInitialState.grid);
@@ -109,17 +186,42 @@ export class NgCropper implements AfterViewInit {
     gridBordered = input<NgCropperConfig['grid']['bordered']>(NgCropperInitialState.grid.bordered);
     gridCovered = input<NgCropperConfig['grid']['covered']>(NgCropperInitialState.grid.covered);
     gridThemeColor = input<NgCropperConfig['grid']['themeColor']>(NgCropperInitialState.grid.themeColor);
+    protected readonly grid$ = computed(() => {
+        const config = this.gridConfig() || {};
+        const hidden = this.gridHidden();
+        const rows = this.gridRows();
+        const columns = this.gridColumns();
+        const bordered = this.gridBordered();
+        const covered = this.gridCovered();
+        const themeColor = this.gridThemeColor();
+
+        return mergeConfigurations(NgCropperInitialState.grid, config, { hidden, rows, columns, bordered, covered, themeColor });
+    });
 
     // ================== Crosshair Inputs ==================
     crosshairConfig = input<Partial<CropperCrosshair>>(NgCropperInitialState.crosshair);
     crosshairHidden = input<NgCropperConfig['crosshair']['hidden']>(NgCropperInitialState.crosshair.hidden);
     crosshairCentered = input<NgCropperConfig['crosshair']['centered']>(NgCropperInitialState.crosshair.centered);
     crosshairThemeColor = input<NgCropperConfig['crosshair']['themeColor']>(NgCropperInitialState.crosshair.themeColor);
+    protected readonly crosshair$ = computed(() => {
+        const config = this.crosshairConfig() || {};
+        const hidden = this.crosshairHidden();
+        const centered = this.crosshairCentered();
+        const themeColor = this.crosshairThemeColor();
+
+        return mergeConfigurations(NgCropperInitialState.crosshair, config, { hidden, centered, themeColor });
+    });
 
     // ================== Handle Inputs ==================
     handlesHidden = input<NgCropperConfig['handles']['hidden']>(NgCropperInitialState.handles.hidden);
     handlesThemeColor = input<NgCropperConfig['handles']['themeColor']>(NgCropperInitialState.handles.themeColor);
     handlesPlain = input<boolean>(true);
+    protected readonly handles$ = computed(() => {
+        const hidden = this.handlesHidden();
+        const themeColor = this.handlesThemeColor();
+
+        return mergeConfigurations(NgCropperInitialState.handles, {}, { hidden, themeColor });
+    });
 
     constructor() {
         provideCropperJS().catch((err) => console.error('Cropper init failed', err));
@@ -183,16 +285,8 @@ export class NgCropper implements AfterViewInit {
         const canvas = this.cropperCanvasRef()?.nativeElement;
         if (!canvas) return;
 
-        canvas.hidden = this.canvasHidden();
-        canvas.background = this.canvasBackground();
-        canvas.disabled = this.canvasDisabled();
-        canvas.scaleStep = this.canvasScaleStep();
-        canvas.themeColor = this.canvasThemeColor();
-
-        const canvasConfig = this.canvasConfig();
-        if (canvasConfig) {
-            Object.assign(canvas, canvasConfig);
-        }
+        const config = this.canvas$();
+        Object.assign(canvas, config);
     }
 
     private updateImageProperties() {
@@ -204,17 +298,13 @@ export class NgCropper implements AfterViewInit {
             imageElement.setAttribute('crossorigin', 'anonymous');
         }
 
-        image.hidden = this.imageHidden();
-        image.rotatable = this.imageRotatable();
-        image.scalable = this.imageScalable();
-        image.skewable = this.imageSkewable();
-        image.translatable = this.imageTranslatable();
-        image.initialCenterSize = this.imageInitialCenterSize();
-        if (image.$image) image.$image.src = this.image$();
-        if (image.$image) image.$image.alt = this.imageAlt();
+        const config = this.imageConfig$();
+        Object.assign(image, config);
 
-        if (this.imageConfig()) {
-            Object.assign(image, this.imageConfig());
+        // Handle special image element properties
+        if (image.$image) {
+            image.$image.src = config.src;
+            image.$image.alt = config.alt;
         }
     }
 
@@ -222,80 +312,58 @@ export class NgCropper implements AfterViewInit {
         const shade = this.cropperShadeRef()?.nativeElement;
         if (!shade) return;
 
-        shade.hidden = this.shadeHidden();
-        shade.themeColor = this.shadeThemeColor();
-
-        if (this.shadeConfig()) {
-            Object.assign(shade, this.shadeConfig());
-        }
+        const config = this.shade$();
+        Object.assign(shade, config);
     }
 
     private updateSelectionProperties() {
         const selection = this.cropperSelectionRef()?.nativeElement;
         if (!selection) return;
 
-        selection.hidden = this.selectionHidden();
+        const config = this.selection$();
 
-        // Only set position/size if explicitly provided
-        if (this.selectionX() !== undefined) selection.x = this.selectionX();
-        if (this.selectionY() !== undefined) selection.y = this.selectionY();
-        if (this.selectionWidth() !== undefined) selection.width = this.selectionWidth();
-        if (this.selectionHeight() !== undefined) selection.height = this.selectionHeight();
+        // Only set position/size if explicitly provided (not NaN)
+        if (!isNaN(config.x)) selection.x = config.x;
+        if (!isNaN(config.y)) selection.y = config.y;
+        if (config.width !== undefined) selection.width = config.width;
+        if (config.height !== undefined) selection.height = config.height;
 
-        selection.aspectRatio = this.selectionAspectRatio();
-        selection.initialAspectRatio = this.selectionInitialAspectRatio();
-        selection.initialCoverage = this.selectionInitialCoverage();
-        selection.dynamic = this.selectionDynamic();
-        selection.movable = this.selectionMovable();
-        selection.resizable = this.selectionResizable();
-        selection.zoomable = this.selectionZoomable();
-        selection.multiple = this.selectionMultiple();
-        selection.keyboard = this.selectionKeyboard();
-        selection.outlined = this.selectionOutlined();
-        selection.precise = this.selectionPrecise();
-
-        if (this.selectionConfig()) {
-            Object.assign(selection, this.selectionConfig());
-        }
+        // Apply all other properties
+        Object.assign(selection, {
+            ...config,
+            // Override position/size handling to avoid NaN values
+            x: selection.x,
+            y: selection.y,
+            width: selection.width,
+            height: selection.height,
+        });
     }
 
     private updateGridProperties() {
         const grid = this.cropperGridRef()?.nativeElement;
         if (!grid) return;
 
-        grid.hidden = this.gridHidden();
-        grid.rows = this.gridRows();
-        grid.columns = this.gridColumns();
-        grid.bordered = this.gridBordered();
-        grid.covered = this.gridCovered();
-        grid.themeColor = this.gridThemeColor();
-
-        if (this.gridConfig()) {
-            Object.assign(grid, this.gridConfig());
-        }
+        const config = this.grid$();
+        Object.assign(grid, config);
     }
 
     private updateCrosshairProperties() {
         const crosshair = this.cropperCrosshairRef()?.nativeElement;
         if (!crosshair) return;
 
-        crosshair.hidden = this.crosshairHidden();
-        crosshair.centered = this.crosshairCentered();
-        crosshair.themeColor = this.crosshairThemeColor();
-
-        if (this.crosshairConfig()) {
-            Object.assign(crosshair, this.crosshairConfig());
-        }
+        const config = this.crosshair$();
+        Object.assign(crosshair, config);
     }
 
     private updateHandleProperties() {
         const handles = this.cropperHandleRefs();
         if (!handles?.length) return;
 
+        const config = this.handles$();
+
         handles.forEach((handleRef, index) => {
             const handle = handleRef.nativeElement;
-            handle.hidden = this.handlesHidden();
-            handle.themeColor = this.handlesThemeColor();
+            Object.assign(handle, config);
             handle.plain = this.handlesPlain();
 
             // Set specific theme color for the move handle (first one)

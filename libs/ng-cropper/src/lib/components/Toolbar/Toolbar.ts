@@ -1,7 +1,7 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { Component, input, TemplateRef } from '@angular/core';
 import { NgCropper } from '../../public.api';
-import { DEFAULT_TOOLBAR_ICONS, ToolbarToolType } from './data/default-toolbat-icons.const';
+import { DEFAULT_TOOLBAR_ICONS, ToolbarToolType } from './toolbar.config';
 import { SafeHTMLPipe } from '../../pipes/safeHTML.pipe';
 
 @Component({
