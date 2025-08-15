@@ -56,7 +56,16 @@
     "version:dry-run": "nx release version --dry-run",
     "publish": "nx release publish",
     "publish:dry-run": "nx release publish --dry-run",
-    "local-registry": "nx local-registry"
+    "local-registry": "nx local-registry",
+    "=========== Manual Publishing ===========": "",
+    "publish:manual": "nx build ng-cropper && cd dist/libs/ng-cropper && npm publish",
+    "publish:manual:dry-run": "nx build ng-cropper && cd dist/libs/ng-cropper && npm publish --dry-run",
+    "create:release": "gh release create",
+    "=========== Quick Release Commands ===========": "",
+    "quick:patch": "npm version patch && pnpm publish:manual && pnpm push:release",
+    "quick:minor": "npm version minor && pnpm publish:manual && pnpm push:release", 
+    "quick:major": "npm version major && pnpm publish:manual && pnpm push:release",
+    "push:release": "git push && git push --tags"
   },
   "private": true,
   "dependencies": {
