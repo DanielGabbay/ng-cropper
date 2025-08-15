@@ -1,6 +1,6 @@
 {
     "name": "ng-cropper-lib",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Angular image cropper library built on CropperJS with optional built-in toolbar. Modern, customizable, and TypeScript-ready.",
     "author": {
         "name": "Daniel Gabbay",
@@ -37,6 +37,7 @@
         "@angular/common": ">=17.1.0",
         "@angular/core": ">=17.1.0",
         "@angular/elements": ">=17.1.0",
+        "@angular/platform-browser": ">=17.1.0",
         "cropperjs": "^2.0.1"
     },
     "dependencies": {},
