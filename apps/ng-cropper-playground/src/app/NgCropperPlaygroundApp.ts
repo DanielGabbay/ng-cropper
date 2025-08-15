@@ -4,6 +4,7 @@ import { NgCropper, NgCropperConfig, NgCropperInitialState } from 'ng-cropper-li
 
 @Component({
     imports: [NgCropper, FormsModule],
+    standalone: true,
     selector: 'ngCropperPlaygroundApp',
     templateUrl: './NgCropperPlaygroundApp.html',
     schemas: [],

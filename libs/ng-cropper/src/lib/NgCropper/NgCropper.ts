@@ -1,19 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import {
-    AfterViewInit,
-    ChangeDetectionStrategy,
-    Component,
-    computed,
-    CUSTOM_ELEMENTS_SCHEMA,
-    effect,
-    ElementRef,
-    inject,
-    input,
-    InputSignalWithTransform,
-    viewChild,
-    viewChildren,
-} from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
+import { AfterViewInit, ChangeDetectionStrategy, Component, computed, CUSTOM_ELEMENTS_SCHEMA, effect, ElementRef, inject, input, viewChild, viewChildren } from '@angular/core';
+import { Toolbar } from '../components/Toolbar/Toolbar';
+import { NgCropperConfig, NgCropperInitialState } from '../ng-cropper.config';
 import {
     CropperCanvas,
     CropperCanvasElement,
@@ -30,10 +18,10 @@ import {
     CropperShadeElement,
     provideCropperJS,
 } from '../providers/cropperjs.provider';
-import { Toolbar } from '../components/Toolbar/Toolbar';
 
 @Component({
     selector: 'ngCropper',
+    standalone: true,
     imports: [Toolbar],
     templateUrl: './NgCropper.html',
     styleUrl: './NgCropper.scss',
@@ -43,7 +31,6 @@ import { Toolbar } from '../components/Toolbar/Toolbar';
 })
 export class NgCropper implements AfterViewInit {
     private readonly elementRef = inject(ElementRef);
-    private readonly domSanitizer = inject(DomSanitizer);
     // Expose component instance to template (to pass as toolbar input)
     public readonly cropperSelf: NgCropper = this;
     // ================== Element References ==================
@@ -67,75 +54,71 @@ export class NgCropper implements AfterViewInit {
     cropperCrosshairClass = input('cropper-crosshair', { transform: (classesString: string) => 'cropper-crosshair ' + classesString });
 
     // ================== Toolbar Inputs ==================
-    showToolbar = input<boolean>(false);
-    toolbarPosition: InputSignalWithTransform<'top' | 'bottom', unknown> = input('bottom', {
-        transform: (value) => (value === 'top' || value === 'bottom' ? (value as 'top' | 'bottom') : 'bottom'),
-    });
+    showToolbar = input<NgCropperConfig['toolbar']['show']>(NgCropperInitialState.toolbar.show);
+    toolbarPosition = input<NgCropperConfig['toolbar']['position']>(NgCropperInitialState.toolbar.position);
 
     // ================== Canvas Inputs ==================
-    canvasConfig = input<Partial<CropperCanvas>>();
-    canvasHidden = input<boolean>(false);
-    canvasBackground = input<boolean>(true);
-    canvasDisabled = input<boolean>(false);
-    canvasScaleStep = input<number>(0.1);
-    canvasThemeColor = input<string>('#3399ff');
+    canvasConfig = input<Partial<CropperCanvas>>(NgCropperInitialState.canvas);
+    canvasHidden = input<NgCropperConfig['canvas']['hidden']>(NgCropperInitialState.canvas.hidden);
+    canvasBackground = input<NgCropperConfig['canvas']['background']>(NgCropperInitialState.canvas.background);
+    canvasDisabled = input<NgCropperConfig['canvas']['disabled']>(NgCropperInitialState.canvas.disabled);
+    canvasScaleStep = input<NgCropperConfig['canvas']['scaleStep']>(NgCropperInitialState.canvas.scaleStep);
+    canvasThemeColor = input<NgCropperConfig['canvas']['themeColor']>(NgCropperInitialState.canvas.themeColor);
 
     // ================== Image Inputs ==================
-    imageConfig = input<Partial<CropperImage>>();
-    imageHidden = input<boolean>(false);
-    imageRotatable = input<boolean>(true);
-    imageScalable = input<boolean>(true);
-    imageSkewable = input<boolean>(true);
-    imageTranslatable = input<boolean>(true);
-    imageInitialCenterSize: InputSignalWithTransform<'contain' | 'cover' | 'none', unknown> = input('contain', {
-        transform: (value) => (['contain', 'cover', 'none'].includes(String(value)) ? value : 'contain') as 'contain' | 'cover' | 'none',
-    });
-    imageSrc = input<string>('');
-    image$ = computed<string>(() => this.imageSrc());
-    imageAlt = input<string>('The image to crop');
+    imageConfig = input<Partial<CropperImage>>(NgCropperInitialState.image);
+    imageHidden = input<NgCropperConfig['image']['hidden']>(NgCropperInitialState.image.hidden);
+    imageRotatable = input<NgCropperConfig['image']['rotatable']>(NgCropperInitialState.image.rotatable);
+    imageScalable = input<NgCropperConfig['image']['scalable']>(NgCropperInitialState.image.scalable);
+    imageSkewable = input<NgCropperConfig['image']['skewable']>(NgCropperInitialState.image.skewable);
+    imageTranslatable = input<NgCropperConfig['image']['translatable']>(NgCropperInitialState.image.translatable);
+    imageInitialCenterSize = input<NgCropperConfig['image']['initialCenterSize']>(NgCropperInitialState.image.initialCenterSize);
+    imageSrc = input<NgCropperConfig['image']['src']>(NgCropperInitialState.image.src);
+    image$ = computed<NgCropperConfig['image']['src']>(() => this.imageSrc());
+    imageAlt = input<NgCropperConfig['image']['alt']>(NgCropperInitialState.image.alt);
 
     // ================== Shade Inputs ==================
-    shadeConfig = input<Partial<CropperShade>>();
-    shadeHidden = input<boolean>(true);
-    shadeThemeColor = input<string>('rgba(0, 0, 0, 0.65)');
+    shadeConfig = input<Partial<CropperShade>>(NgCropperInitialState.shade);
+    shadeHidden = input<NgCropperConfig['shade']['hidden']>(NgCropperInitialState.shade.hidden);
+    shadeThemeColor = input<NgCropperConfig['shade']['themeColor']>(NgCropperInitialState.shade.themeColor);
 
     // ================== Selection Inputs ==================
-    selectionConfig = input<Partial<CropperSelection>>();
-    selectionHidden = input<boolean>(false);
-    selectionX = input<number>(NaN);
-    selectionY = input<number>(NaN);
-    selectionWidth = input<number>(NaN);
-    selectionHeight = input<number>(NaN);
-    selectionAspectRatio = input<number>(NaN);
-    selectionInitialAspectRatio = input<number>(NaN);
-    selectionInitialCoverage = input<number>(0.5);
-    selectionDynamic = input<boolean>(false);
-    selectionMovable = input<boolean>(true);
-    selectionResizable = input<boolean>(true);
-    selectionZoomable = input<boolean>(false);
-    selectionMultiple = input<boolean>(false);
-    selectionKeyboard = input<boolean>(false);
-    selectionOutlined = input<boolean>(false);
-    selectionPrecise = input<boolean>(true);
+    selectionConfig = input<Partial<CropperSelection>>(NgCropperInitialState.selection);
+    selectionHidden = input<NgCropperConfig['selection']['hidden']>(NgCropperInitialState.selection.hidden);
+    selectionX = input<NgCropperConfig['selection']['x']>(NgCropperInitialState.selection.x);
+    selectionY = input<NgCropperConfig['selection']['y']>(NgCropperInitialState.selection.y);
+    selectionWidth = input<NgCropperConfig['selection']['width']>(NgCropperInitialState.selection.width);
+    selectionHeight = input<NgCropperConfig['selection']['height']>(NgCropperInitialState.selection.height);
+    selectionAspectRatio = input<NgCropperConfig['selection']['aspectRatio']>(NgCropperInitialState.selection.aspectRatio);
+    selectionInitialAspectRatio = input<NgCropperConfig['selection']['initialAspectRatio']>(NgCropperInitialState.selection.initialAspectRatio);
+    selectionInitialCoverage = input<NgCropperConfig['selection']['initialCoverage']>(NgCropperInitialState.selection.initialCoverage);
+    selectionDynamic = input<NgCropperConfig['selection']['dynamic']>(NgCropperInitialState.selection.dynamic);
+    selectionMovable = input<NgCropperConfig['selection']['movable']>(NgCropperInitialState.selection.movable);
+    selectionResizable = input<NgCropperConfig['selection']['resizable']>(NgCropperInitialState.selection.resizable);
+    selectionZoomable = input<NgCropperConfig['selection']['zoomable']>(NgCropperInitialState.selection.zoomable);
+    selectionMultiple = input<NgCropperConfig['selection']['multiple']>(NgCropperInitialState.selection.multiple);
+    selectionKeyboard = input<NgCropperConfig['selection']['keyboard']>(NgCropperInitialState.selection.keyboard);
+    selectionOutlined = input<NgCropperConfig['selection']['outlined']>(NgCropperInitialState.selection.outlined);
+    selectionPrecise = input<NgCropperConfig['selection']['precise']>(NgCropperInitialState.selection.precise);
 
     // ================== Grid Inputs ==================
-    gridConfig = input<Partial<CropperGrid>>();
-    gridHidden = input<boolean>(false);
-    gridRows = input<number>(3);
-    gridColumns = input<number>(3);
-    gridBordered = input<boolean>(true);
-    gridCovered = input<boolean>(true);
-    gridThemeColor = input<string>('rgba(238, 238, 238, 0.5)');
+    gridConfig = input<Partial<CropperGrid>>(NgCropperInitialState.grid);
+    gridHidden = input<NgCropperConfig['grid']['hidden']>(NgCropperInitialState.grid.hidden);
+    gridRows = input<NgCropperConfig['grid']['rows']>(NgCropperInitialState.grid.rows);
+    gridColumns = input<NgCropperConfig['grid']['columns']>(NgCropperInitialState.grid.columns);
+    gridBordered = input<NgCropperConfig['grid']['bordered']>(NgCropperInitialState.grid.bordered);
+    gridCovered = input<NgCropperConfig['grid']['covered']>(NgCropperInitialState.grid.covered);
+    gridThemeColor = input<NgCropperConfig['grid']['themeColor']>(NgCropperInitialState.grid.themeColor);
 
     // ================== Crosshair Inputs ==================
-    crosshairConfig = input<Partial<CropperCrosshair>>();
-    crosshairHidden = input<boolean>(false);
-    crosshairCentered = input<boolean>(true);
-    crosshairThemeColor = input<string>('rgba(238, 238, 238, 0.5)');
+    crosshairConfig = input<Partial<CropperCrosshair>>(NgCropperInitialState.crosshair);
+    crosshairHidden = input<NgCropperConfig['crosshair']['hidden']>(NgCropperInitialState.crosshair.hidden);
+    crosshairCentered = input<NgCropperConfig['crosshair']['centered']>(NgCropperInitialState.crosshair.centered);
+    crosshairThemeColor = input<NgCropperConfig['crosshair']['themeColor']>(NgCropperInitialState.crosshair.themeColor);
 
     // ================== Handle Inputs ==================
-    handlesHidden = input<boolean>(false);
-    handlesThemeColor = input<string>('rgba(51, 153, 255, 0.5)');
+    handlesHidden = input<NgCropperConfig['handles']['hidden']>(NgCropperInitialState.handles.hidden);
+    handlesThemeColor = input<NgCropperConfig['handles']['themeColor']>(NgCropperInitialState.handles.themeColor);
     handlesPlain = input<boolean>(true);
 
     constructor() {
@@ -483,10 +466,14 @@ export class NgCropper implements AfterViewInit {
             },
         });
         return new Promise<Blob>((resolve, reject) => {
-            canvas.toBlob((blob) => {
-                if (blob) return resolve(blob);
-                reject(new Error('Canvas toBlob returned null'));
-            }, type, quality);
+            canvas.toBlob(
+                (blob) => {
+                    if (blob) return resolve(blob);
+                    reject(new Error('Canvas toBlob returned null'));
+                },
+                type,
+                quality
+            );
         });
     }
 }

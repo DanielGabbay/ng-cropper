@@ -34,14 +34,16 @@
     "fesm2022": "fesm2022/dg-ng-cropper.mjs",
     "typings": "index.d.ts",
     "peerDependencies": {
-        "@angular/common": "^20.1.0",
-        "@angular/core": "^20.1.0",
-        "@angular/platform-browser": "^20.1.0",
-        "@angular/elements": "^20.1.0",
-        "cropperjs": "^2.0.1",
-        "lucide-angular": "^0.539.0"
+        "@angular/common": ">=17.1.0",
+        "@angular/core": ">=17.1.0",
+        "@angular/elements": ">=17.1.0",
+        "cropperjs": "^2.0.1"
     },
     "dependencies": {},
+    "funding": {
+        "type": "individual",
+        "url": "https://buymeacoffee.com/danielgabbay"
+    },
     "publishConfig": {
         "access": "public"
     },

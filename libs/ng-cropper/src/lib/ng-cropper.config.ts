@@ -1,8 +1,8 @@
-import { Signal } from '@angular/core';
 import { CropperCanvas, CropperCrosshair, CropperGrid, CropperHandle, CropperImage, CropperSelection, CropperShade } from 'cropperjs';
-///////////////
-export type SignalValue<T> = T extends Signal<infer U> ? U : never;
-///////////////
+
+/**
+ * Configuration for the ng-cropper component.
+ */
 export type NgCropperConfig = {
     toolbar: {
         show: boolean;
@@ -33,6 +33,8 @@ export type NgCropperConfig = {
     grid: Pick<CropperGrid, 'hidden' | 'rows' | 'columns' | 'bordered' | 'covered' | 'themeColor'>;
     crosshair: Pick<CropperCrosshair, 'hidden' | 'centered' | 'themeColor'>;
     handles: Pick<CropperHandle, 'hidden' | 'themeColor'>;
+
+    /** For partial configuration of cropperjs components. to allow all available options that not listed in the main config */
     partials: {
         canvas?: Partial<CropperCanvas>;
         image?: Partial<CropperImage>;
@@ -42,9 +44,15 @@ export type NgCropperConfig = {
         crosshair?: Partial<CropperCrosshair>;
     };
 };
+
+/**
+ * Initial state of the cropper configuration.
+ * This is used to reset the cropper to its initial state.
+ * It is also used as the default configuration when no configuration is provided.
+ */
 export const NgCropperInitialState = Object.freeze<NgCropperConfig>({
     toolbar: {
-        show: false,
+        show: true,
         position: 'bottom',
     },
     canvas: {

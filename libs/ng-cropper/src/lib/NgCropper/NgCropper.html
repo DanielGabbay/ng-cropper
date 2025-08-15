@@ -1,9 +1,20 @@
 <div class="ng-cropper-container border border-gray-300 rounded-lg shadow-lg" [class]="cropperContainerClass()">
     @if (showToolbar()) {
-    <div class="pointer-events-none absolute z-[2147483647]" [style.top]="toolbarPosition() === 'top' ? '0' : null" [style.bottom]="toolbarPosition() === 'bottom' ? '0' : null" style="left:0; right:0;">
+    <div
+        class="pointer-events-none absolute z-[2147483647]"
+        [style.top]="toolbarPosition() === 'top' ? '0' : null"
+        [style.bottom]="toolbarPosition() === 'bottom' ? '0' : null"
+        style="left: 0; right: 0"
+    >
         <div class="flex justify-center py-2">
             <div class="pointer-events-auto">
+                @defer (when showToolbar()) {
                 <ngCropperToolbar [cropperRef]="cropperSelf" />
+                }@placeholder {
+                <div class="flex items-center">
+                    <span class="text-gray-500">Loading toolbar...</span>
+                </div>
+                }
             </div>
         </div>
     </div>

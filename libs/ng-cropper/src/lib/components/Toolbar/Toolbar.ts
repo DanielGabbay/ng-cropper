@@ -1,10 +1,13 @@
-import { Component, input } from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
+import { Component, input, TemplateRef } from '@angular/core';
 import { NgCropper } from '../../public.api';
-import { LucideAngularModule, RotateCw, RotateCcw, Crop, ZoomIn, ZoomOut, RotateCcwSquare } from 'lucide-angular';
+import { DEFAULT_TOOLBAR_ICONS, ToolbarToolType } from './data/default-toolbat-icons.const';
+import { SafeHTMLPipe } from '../../pipes/safeHTML.pipe';
 
 @Component({
     selector: 'ngCropperToolbar',
-    imports: [LucideAngularModule],
+    standalone: true,
+    imports: [NgTemplateOutlet, SafeHTMLPipe],
     templateUrl: './Toolbar.html',
     styleUrl: './Toolbar.scss',
 })
@@ -12,45 +15,67 @@ export class Toolbar {
     /** Reference to the cropper instance to control it */
     public readonly cropperRef = input.required<NgCropper>();
 
-    // Icons for the toolbar
-    readonly icons = {
-        rotateCw: RotateCw,
-        rotateCcw: RotateCcw,
-        crop: Crop,
-        zoomIn: ZoomIn,
-        zoomOut: ZoomOut,
-        reset: RotateCcwSquare,
-    };
+    public readonly visibleTools = input(new Set(Object.keys(DEFAULT_TOOLBAR_ICONS) as ToolbarToolType[]), {
+        transform: (value: Array<ToolbarToolType> | Set<ToolbarToolType>) => value instanceof Set ? value : new Set(value),
+    });
+    // ==== Rotate Left ====
+    public readonly rotateLeftIcon = input<string | TemplateRef<unknown>>(DEFAULT_TOOLBAR_ICONS.rotateLeft);
+    public readonly rotateLeftTooltip = input<string>('Rotate left 90°');
+    // ==== Rotate Right ====
+    public readonly rotateRightIcon = input<string | TemplateRef<unknown>>(DEFAULT_TOOLBAR_ICONS.rotateRight);
+    public readonly rotateRightTooltip = input<string>('Rotate right 90°');
+    // ==== Zoom In ====
+    public readonly zoomInIcon = input<string | TemplateRef<unknown>>(DEFAULT_TOOLBAR_ICONS.zoomIn);
+    public readonly zoomInTooltip = input<string>('Zoom in');
+    // ==== Zoom Out ====
+    public readonly zoomOutIcon = input<string | TemplateRef<unknown>>(DEFAULT_TOOLBAR_ICONS.zoomOut);
+    public readonly zoomOutTooltip = input<string>('Zoom out');
+    // ==== Crop ====
+    public readonly cropIcon = input<string | TemplateRef<unknown>>(DEFAULT_TOOLBAR_ICONS.crop);
+    public readonly cropTooltip = input<string>('Crop image');
+    // ==== Reset ====
+    public readonly resetIcon = input<string | TemplateRef<unknown>>(DEFAULT_TOOLBAR_ICONS.reset);
+    public readonly resetTooltip = input<string>('Reset state');
+
+    // Helper method to determine if icon is a template ref
+    protected isTemplateRef(icon: string | TemplateRef<unknown>): icon is TemplateRef<unknown> {
+        return icon instanceof TemplateRef;
+    }
+
+    // Helper method to determine if icon is a CSS class (starts with common CSS class patterns)
+    protected isSvgIcon(icon: string | TemplateRef<unknown>): icon is string {
+        return typeof icon === 'string' && icon.startsWith('<svg');
+    }
 
     /** Rotate image 90 degrees clockwise */
-    rotateClockwise() {
+    protected rotateClockwise() {
         this.cropperRef().rotateImage('90deg');
     }
 
     /** Rotate image 90 degrees counter-clockwise */
-    rotateCounterClockwise() {
+    protected rotateCounterClockwise() {
         this.cropperRef().rotateImage('-90deg');
     }
 
     /** Zoom in */
-    zoomIn() {
+    protected zoomIn() {
         this.cropperRef().zoomImage(+0.1);
     }
 
     /** Zoom out */
-    zoomOut() {
+    protected zoomOut() {
         this.cropperRef().zoomImage(-0.1);
     }
 
     /** Reset image to initial state */
-    reset() {
+    protected reset() {
         this.cropperRef().resetImageTransform();
         this.cropperRef().resetSelection();
         this.cropperRef().centerImage('contain');
     }
 
     /** Crop the selection */
-    async crop() {
+    public async crop() {
         try {
             const canvas = await this.cropperRef().selectionToCanvas();
             // Create download link

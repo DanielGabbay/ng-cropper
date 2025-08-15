@@ -1,82 +1,108 @@
 <div class="flex items-center gap-3 p-3 bg-white/95 dark:bg-gray-800/95 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 backdrop-blur-sm">
-  <!-- Rotation Controls -->
-  <div class="flex items-center gap-1 px-2 border-r border-gray-200 dark:border-gray-600">
-    <button 
-      class="group relative flex items-center justify-center w-10 h-10 rounded-lg transition-all duration-200 ease-out bg-gray-50 hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 border border-gray-200 hover:border-gray-300 dark:border-gray-600 dark:hover:border-gray-500 hover:scale-105 hover:shadow-md hover:-translate-y-0.5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
-      title="Rotate left 90°"
-      (click)="rotateCounterClockwise()">
-      <lucide-angular [img]="icons.rotateCcw" class="w-5 h-5 text-gray-600 dark:text-gray-300 transition-colors duration-200" />
-      
-      <!-- Tooltip -->
-      <span class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs font-medium text-white bg-gray-900 rounded opacity-0 pointer-events-none transition-opacity duration-200 group-hover:opacity-100 whitespace-nowrap z-50">
-        Rotate left 90°
-      </span>
-    </button>
-    
-    <button 
-      class="group relative flex items-center justify-center w-10 h-10 rounded-lg transition-all duration-200 ease-out bg-gray-50 hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 border border-gray-200 hover:border-gray-300 dark:border-gray-600 dark:hover:border-gray-500 hover:scale-105 hover:shadow-md hover:-translate-y-0.5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
-      title="Rotate right 90°"
-      (click)="rotateClockwise()">
-      <lucide-angular [img]="icons.rotateCw" class="w-5 h-5 text-gray-600 dark:text-gray-300 transition-colors duration-200" />
-      
-      <!-- Tooltip -->
-      <span class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs font-medium text-white bg-gray-900 rounded opacity-0 pointer-events-none transition-opacity duration-200 group-hover:opacity-100 whitespace-nowrap z-50">
-        Rotate right 90°
-      </span>
-    </button>
-  </div>
+    @let tools = visibleTools();
+    <!-- Rotation Controls -->
+    <div class="flex items-center gap-1 px-2 border-r border-gray-200 dark:border-gray-600">
+        @if(tools.has('rotateLeft')){
+        <button
+            class="group relative flex items-center justify-center w-10 h-10 rounded-lg transition-all duration-200 ease-out bg-gray-50 hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 border border-gray-200 hover:border-gray-300 dark:border-gray-600 dark:hover:border-gray-500 hover:scale-105 hover:shadow-md hover:-translate-y-0.5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+            title="Rotate left 90°"
+            (click)="rotateCounterClockwise()"
+        >
+            <!-- Icon -->
+            <ng-container [ngTemplateOutlet]="IconViewer" [ngTemplateOutletContext]="{ icon: rotateLeftIcon() }"></ng-container>
 
-  <!-- Zoom Controls -->
-  <div class="flex items-center gap-1 px-2 border-r border-gray-200 dark:border-gray-600">
-    <button 
-      class="group relative flex items-center justify-center w-10 h-10 rounded-lg transition-all duration-200 ease-out bg-gray-50 hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 border border-gray-200 hover:border-gray-300 dark:border-gray-600 dark:hover:border-gray-500 hover:scale-105 hover:shadow-md hover:-translate-y-0.5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
-      title="Zoom in"
-      (click)="zoomIn()">
-      <lucide-angular [img]="icons.zoomIn" class="w-5 h-5 text-gray-600 dark:text-gray-300 transition-colors duration-200" />
-      
-      <!-- Tooltip -->
-      <span class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs font-medium text-white bg-gray-900 rounded opacity-0 pointer-events-none transition-opacity duration-200 group-hover:opacity-100 whitespace-nowrap z-50">
-        Zoom in
-      </span>
-    </button>
-    
-    <button 
-      class="group relative flex items-center justify-center w-10 h-10 rounded-lg transition-all duration-200 ease-out bg-gray-50 hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 border border-gray-200 hover:border-gray-300 dark:border-gray-600 dark:hover:border-gray-500 hover:scale-105 hover:shadow-md hover:-translate-y-0.5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
-      title="Zoom out"
-      (click)="zoomOut()">
-      <lucide-angular [img]="icons.zoomOut" class="w-5 h-5 text-gray-600 dark:text-gray-300 transition-colors duration-200" />
-      
-      <!-- Tooltip -->
-      <span class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs font-medium text-white bg-gray-900 rounded opacity-0 pointer-events-none transition-opacity duration-200 group-hover:opacity-100 whitespace-nowrap z-50">
-        Zoom out
-      </span>
-    </button>
-  </div>
+            <!-- Tooltip -->
+            <ng-container [ngTemplateOutlet]="Tooltip" [ngTemplateOutletContext]="{ tooltip: rotateLeftTooltip() }"></ng-container>
+        </button>
+        } @if(tools.has('rotateRight')){
+        <button
+            class="group relative flex items-center justify-center w-10 h-10 rounded-lg transition-all duration-200 ease-out bg-gray-50 hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 border border-gray-200 hover:border-gray-300 dark:border-gray-600 dark:hover:border-gray-500 hover:scale-105 hover:shadow-md hover:-translate-y-0.5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+            title="Rotate right 90°"
+            (click)="rotateClockwise()"
+        >
+            <ng-container [ngTemplateOutlet]="IconViewer" [ngTemplateOutletContext]="{ icon: rotateRightIcon() }"></ng-container>
+            <!-- Tooltip -->
+            <ng-container [ngTemplateOutlet]="Tooltip" [ngTemplateOutletContext]="{ tooltip: rotateRightTooltip() }"></ng-container>
+        </button>
+        }
+    </div>
 
-  <!-- Action Controls -->
-  <div class="flex items-center gap-1 px-2">
-    <button 
-      class="group relative flex items-center justify-center w-10 h-10 rounded-lg transition-all duration-200 ease-out bg-blue-500 hover:bg-blue-600 text-white border border-blue-500 hover:border-blue-600 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/25 hover:-translate-y-0.5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
-      title="Crop image"
-      (click)="crop()">
-      <lucide-angular [img]="icons.crop" class="w-5 h-5 text-white transition-colors duration-200" />
-      
-      <!-- Tooltip -->
-      <span class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs font-medium text-white bg-gray-900 rounded opacity-0 pointer-events-none transition-opacity duration-200 group-hover:opacity-100 whitespace-nowrap z-50">
-        Crop image
-      </span>
-    </button>
-    
-    <button 
-      class="group relative flex items-center justify-center w-10 h-10 rounded-lg transition-all duration-200 ease-out bg-orange-500 hover:bg-orange-600 text-white border border-orange-500 hover:border-orange-600 hover:scale-105 hover:shadow-lg hover:shadow-orange-500/25 hover:-translate-y-0.5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-orange-500/50"
-      title="Reset state"
-      (click)="reset()">
-      <lucide-angular [img]="icons.reset" class="w-5 h-5 text-white transition-colors duration-200" />
-      
-      <!-- Tooltip -->
-      <span class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs font-medium text-white bg-gray-900 rounded opacity-0 pointer-events-none transition-opacity duration-200 group-hover:opacity-100 whitespace-nowrap z-50">
-        Reset state
-      </span>
-    </button>
-  </div>
+    <!-- Zoom Controls -->
+    <div class="flex items-center gap-1 px-2 border-r border-gray-200 dark:border-gray-600">
+        @if(tools.has('zoomIn')){
+        <button
+            class="group relative flex items-center justify-center w-10 h-10 rounded-lg transition-all duration-200 ease-out bg-gray-50 hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 border border-gray-200 hover:border-gray-300 dark:border-gray-600 dark:hover:border-gray-500 hover:scale-105 hover:shadow-md hover:-translate-y-0.5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+            title="Zoom in"
+            (click)="zoomIn()"
+        >
+            <!-- Icon -->
+            <ng-container [ngTemplateOutlet]="IconViewer" [ngTemplateOutletContext]="{ icon: zoomInIcon() }"></ng-container>
+            <!-- Tooltip -->
+            <ng-container [ngTemplateOutlet]="Tooltip" [ngTemplateOutletContext]="{ tooltip: zoomInTooltip() }"></ng-container>
+        </button>
+        }
+
+        @if(tools.has('zoomOut')){
+        <button
+            class="group relative flex items-center justify-center w-10 h-10 rounded-lg transition-all duration-200 ease-out bg-gray-50 hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 border border-gray-200 hover:border-gray-300 dark:border-gray-600 dark:hover:border-gray-500 hover:scale-105 hover:shadow-md hover:-translate-y-0.5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+            title="Zoom out"
+            (click)="zoomOut()"
+        >
+            <!-- Icon -->
+            <ng-container [ngTemplateOutlet]="IconViewer" [ngTemplateOutletContext]="{ icon: zoomOutIcon() }"></ng-container>
+            <!-- Tooltip -->
+            <ng-container [ngTemplateOutlet]="Tooltip" [ngTemplateOutletContext]="{ tooltip: zoomOutTooltip() }"></ng-container>
+        </button>
+        }
+    </div>
+
+    <!-- Action Controls -->
+    <div class="flex items-center gap-1 px-2">
+        @if(tools.has('crop')){
+        <button
+            class="group relative flex items-center justify-center w-10 h-10 rounded-lg transition-all duration-200 ease-out bg-blue-500 hover:bg-blue-600 text-white border border-blue-500 hover:border-blue-600 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/25 hover:-translate-y-0.5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+            title="Crop image"
+            (click)="crop()"
+        >
+            <!-- Icon -->
+            <ng-container [ngTemplateOutlet]="IconViewer" [ngTemplateOutletContext]="{ icon: cropIcon() }"></ng-container>
+            <!-- Tooltip -->
+            <ng-container [ngTemplateOutlet]="Tooltip" [ngTemplateOutletContext]="{ tooltip: cropTooltip() }"></ng-container>
+        </button>
+        }
+
+        @if(tools.has('reset')){
+        <button
+            class="group relative flex items-center justify-center w-10 h-10 rounded-lg transition-all duration-200 ease-out bg-orange-500 hover:bg-orange-600 text-white border border-orange-500 hover:border-orange-600 hover:scale-105 hover:shadow-lg hover:shadow-orange-500/25 hover:-translate-y-0.5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-orange-500/50"
+            title="Reset state"
+            (click)="reset()"
+        >
+            <!-- Icon -->
+            <ng-container [ngTemplateOutlet]="IconViewer" [ngTemplateOutletContext]="{ icon: resetIcon() }"></ng-container>
+
+            <!-- Tooltip -->
+            <ng-container [ngTemplateOutlet]="Tooltip" [ngTemplateOutletContext]="{ tooltip: resetTooltip() }"></ng-container>
+        </button>
+        }
+    </div>
 </div>
+
+<!-- Template: Icon Viewer -->
+<ng-template #IconViewer let-icon="icon">
+    @if(icon){ @if(isTemplateRef(icon)) {
+    <ng-container [ngTemplateOutlet]="icon"></ng-container>
+    } @else if(isSvgIcon(icon)) {
+    <span [innerHTML]="icon|safeHTML" class="w-5 h-5 text-gray-600 dark:text-gray-300 transition-colors duration-200"></span>
+    } @else {
+    <i [class]="icon + ' w-5 h-5 text-gray-600 dark:text-gray-300 transition-colors duration-200'"></i>
+    } }@else { XXX }
+</ng-template>
+
+<!-- Template: Tooltip -->
+<ng-template #Tooltip let-tooltip="tooltip">
+    <span
+        class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs font-medium text-white bg-gray-900 rounded opacity-0 pointer-events-none transition-opacity duration-200 group-hover:opacity-100 whitespace-nowrap z-50"
+    >
+        {{ tooltip }}
+    </span>
+</ng-template>
