@@ -52,7 +52,7 @@ jobs:
         run: npx nx build-storybook ng-cropper
         
       - name: Build playground
-        run: npx nx build ng-cropper-playground --configuration=production
+        run: npx nx build ng-cropper-playground --configuration=production --base-href="/playground/"
         
       - name: Setup Pages
         uses: actions/configure-pages@v4
