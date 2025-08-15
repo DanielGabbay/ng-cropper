@@ -306,6 +306,43 @@ const meta: Meta<NgCropper> = {
             description: 'Handles theme color',
             table: { category: 'Handles' },
         },
+        
+        // Config object inputs (new approach)
+        toolbarConfig: {
+            control: 'object',
+            description: 'Complete toolbar configuration object - use this instead of individual toolbar properties',
+            table: { category: 'Config Objects' },
+        },
+        canvasConfig: {
+            control: 'object',
+            description: 'Complete canvas configuration object - use this instead of individual canvas properties',
+            table: { category: 'Config Objects' },
+        },
+        imageConfig: {
+            control: 'object',
+            description: 'Complete image configuration object - use this instead of individual image properties',
+            table: { category: 'Config Objects' },
+        },
+        shadeConfig: {
+            control: 'object',
+            description: 'Complete shade configuration object - use this instead of individual shade properties',
+            table: { category: 'Config Objects' },
+        },
+        selectionConfig: {
+            control: 'object',
+            description: 'Complete selection configuration object - use this instead of individual selection properties',
+            table: { category: 'Config Objects' },
+        },
+        gridConfig: {
+            control: 'object',
+            description: 'Complete grid configuration object - use this instead of individual grid properties',
+            table: { category: 'Config Objects' },
+        },
+        crosshairConfig: {
+            control: 'object',
+            description: 'Complete crosshair configuration object - use this instead of individual crosshair properties',
+            table: { category: 'Config Objects' },
+        },
     },
     args: {
         // Toolbar defaults
@@ -370,7 +407,7 @@ const meta: Meta<NgCropper> = {
         parameters: {
         docs: {
             description: {
-                component: 'NgCropper is a powerful Angular image cropper component with full customization capabilities. Use showToolbar and toolbarPosition to enable a built-in toolbar.',
+                component: 'NgCropper is a powerful Angular image cropper component with full customization capabilities. Use showToolbar and toolbarPosition to enable a built-in toolbar. You can use individual property inputs or comprehensive config objects for each component.',
             },
         },
                 layout: 'fullscreen',
@@ -582,6 +619,162 @@ export const ToolbarFixedSquare: Story = {
     parameters: {
         docs: {
             description: { story: 'Toolbar with a fixed 1:1 selection aspect ratio.' },
+        },
+    },
+};
+
+export const ToolbarCustomIcons: Story = {
+    args: {
+        showToolbar: true,
+        toolbarPosition: 'bottom',
+        imageSrc: 'https://picsum.photos/800/600',
+        toolbarConfig: {
+            icons: {
+                rotateLeft: 'fas fa-undo',
+                rotateRight: 'fas fa-redo',
+                zoomIn: 'fas fa-search-plus',
+                zoomOut: 'fas fa-search-minus',
+                crop: 'fas fa-crop',
+                reset: 'fas fa-sync-alt',
+            }
+        },
+    },
+    parameters: {
+        docs: {
+            description: { 
+                story: 'Toolbar with custom FontAwesome icons using toolbarConfig. Note: FontAwesome must be included separately in your project for these icons to display.' 
+            },
+        },
+    },
+};
+
+export const ToolbarMaterialIcons: Story = {
+    args: {
+        showToolbar: true,
+        toolbarPosition: 'bottom',
+        imageSrc: 'https://picsum.photos/800/600',
+        toolbarConfig: {
+            icons: {
+                rotateLeft: 'material-icons rotate_left',
+                rotateRight: 'material-icons rotate_right',
+                zoomIn: 'material-icons zoom_in',
+                zoomOut: 'material-icons zoom_out',
+                crop: 'material-icons crop',
+                reset: 'material-icons refresh',
+            }
+        },
+    },
+    parameters: {
+        docs: {
+            description: { 
+                story: 'Toolbar with Material Icons using toolbarConfig. Note: Material Icons must be included separately in your project for these icons to display.' 
+            },
+        },
+    },
+};
+
+// New stories demonstrating config object approach
+export const ConfigObjectDemo: Story = {
+    args: {
+        imageSrc: 'https://picsum.photos/800/600',
+        toolbarConfig: {
+            show: true,
+            position: 'bottom',
+            visibleTools: ['rotateLeft', 'rotateRight', 'zoomIn', 'zoomOut', 'reset'],
+            tooltips: {
+                rotateLeft: 'Rotate counterclockwise',
+                rotateRight: 'Rotate clockwise',
+                zoomIn: 'Zoom in to image',
+                zoomOut: 'Zoom out from image',
+                reset: 'Reset to original state',
+            }
+        },
+        canvasConfig: {
+            background: true,
+            themeColor: '#ff6b6b',
+            scaleStep: 0.2,
+        },
+        selectionConfig: {
+            aspectRatio: 16/9,
+            initialCoverage: 0.7,
+            outlined: true,
+            resizable: true,
+            movable: true,
+        },
+        gridConfig: {
+            rows: 4,
+            columns: 4,
+            bordered: true,
+            themeColor: 'rgba(255, 107, 107, 0.3)',
+        },
+    },
+    parameters: {
+        docs: {
+            description: {
+                story: 'Demonstrates the new config object approach. Use toolbarConfig, canvasConfig, selectionConfig, etc. instead of individual properties for cleaner code and better organization.',
+            },
+        },
+    },
+};
+
+export const PartialConfigMerging: Story = {
+    args: {
+        imageSrc: 'https://picsum.photos/800/600',
+        // Individual properties still work
+        showToolbar: true,
+        toolbarPosition: 'top',
+        // Config objects override and merge with individual properties
+        toolbarConfig: {
+            visibleTools: ['crop', 'reset'], // Only show crop and reset buttons
+            icons: {
+                crop: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7,17V1H5V5H1V7H5V17A2,2 0 0,0 7,19H17V23H19V19H23V17H7M19,7V17H9V15H17A2,2 0 0,0 19,13V7H19Z" /></svg>',
+                reset: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12,4C14,4 16,5 17,7H20A1,1 0 0,1 21,8A1,1 0 0,1 20,9H18C18,10 18,11 17,12C16,14 14,15 12,15C10,15 8,14 7,12C6,10 6,8 7,7C8,5 10,4 12,4M12,6A3,3 0 0,0 9,9A3,3 0 0,0 12,12A3,3 0 0,0 15,9A3,3 0 0,0 12,6Z" /></svg>',
+            }
+        },
+        // Override individual selection properties with config
+        selectionAspectRatio: 1, // This will be overridden by selectionConfig
+        selectionConfig: {
+            aspectRatio: 4/3, // This takes precedence
+            initialCoverage: 0.8,
+        },
+    },
+    parameters: {
+        docs: {
+            description: {
+                story: 'Shows how config objects merge with and override individual properties. Config objects have higher priority than individual properties.',
+            },
+        },
+    },
+};
+
+export const CustomToolbarOnly: Story = {
+    args: {
+        imageSrc: 'https://picsum.photos/800/600',
+        toolbarConfig: {
+            show: true,
+            position: 'bottom',
+            visibleTools: ['crop'],
+            icons: {
+                crop: '🔥', // Using emoji as icon
+            },
+            tooltips: {
+                crop: 'Apply the crop',
+            }
+        },
+        // Hide all other UI elements for minimal look
+        gridConfig: { hidden: true },
+        crosshairConfig: { hidden: true },
+        handlesHidden: true,
+        selectionConfig: {
+            outlined: true,
+            aspectRatio: 1,
+        },
+    },
+    parameters: {
+        docs: {
+            description: {
+                story: 'Ultra-minimal cropper with only a custom crop button. Shows how to create a very clean UI using config objects.',
+            },
         },
     },
 };
