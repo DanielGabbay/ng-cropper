@@ -1,6 +1,6 @@
 {
   "name": "@dg/ng-cropper",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "scripts": {
     "=========== Development ===========": "",
@@ -63,7 +63,7 @@
     "create:release": "gh release create",
     "=========== Quick Release Commands ===========": "",
     "quick:patch": "npm version patch && pnpm publish:manual && pnpm push:release",
-    "quick:minor": "npm version minor && pnpm publish:manual && pnpm push:release", 
+    "quick:minor": "npm version minor && pnpm publish:manual && pnpm push:release",
     "quick:major": "npm version major && pnpm publish:manual && pnpm push:release",
     "push:release": "git push && git push --tags"
   },
